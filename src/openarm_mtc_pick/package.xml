@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>openarm_mtc_pick</name>
+  <version>0.1.0</version>
+  <description>Production one-shot RGB-D vertical pick/place demo for OpenArm v2.</description>
+  <maintainer email="asukaandmeaaa@users.noreply.github.com">Asukaandmeaaa</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>control_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>moveit_msgs</depend>
+  <depend>moveit_ros_planning_interface</depend>
+  <depend>moveit_task_constructor_core</depend>
+  <depend>moveit_task_constructor_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>sensor_msgs</depend>
+  <depend>shape_msgs</depend>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>moveit_configs_utils</exec_depend>
+  <exec_depend>openarm_bimanual_moveit_config</exec_depend>
+  <exec_depend>openarm_aruco_vision</exec_depend>
+  <exec_depend>openarm_description</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+
+  <test_depend>ament_cmake_lint_cmake</test_depend>
+  <test_depend>ament_cmake_xmllint</test_depend>
+  <test_depend>ament_cmake_gtest</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

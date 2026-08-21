@@ -1,0 +1,21 @@
+OpenArm Custom Stack
+Copyright 2026 OpenArm Custom Stack contributors
+
+This product includes modifications to software developed by Enactic, Inc.:
+
+  OpenArm ROS 2: https://github.com/enactic/openarm_ros2
+  OpenArm Description: https://github.com/enactic/openarm_description
+
+Those upstream projects and the modifications distributed here are licensed
+under the Apache License, Version 2.0. Upstream copyright and license notices
+are retained in the source and patch context.
+
+This repository downloads, but does not redistribute complete copies of:
+
+  OpenArm CAN
+  MoveIt Task Constructor
+  py_binding_tools
+
+They remain copyright their respective authors and are governed by their own
+license files. Intel RealSense and ROS/MoveIt names are trademarks or project
+names of their respective owners. No endorsement is implied.

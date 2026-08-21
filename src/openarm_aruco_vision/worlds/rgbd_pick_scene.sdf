@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <world name="openarm_rgbd_pick">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+    <plugin filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system"
+            name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <scene>
+      <ambient>0.65 0.65 0.65 1</ambient>
+      <background>0.15 0.15 0.15 1</background>
+    </scene>
+    <light type="directional" name="sun">
+      <pose>0 0 5 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.4 0.2 -1.0</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <!-- The upper surface is exactly z=0, matching the real support reference. -->
+    <model name="support_plane">
+      <static>true</static>
+      <pose>0.43 0 -0.01 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>1.2 1.0 0.02</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>1.2 1.0 0.02</size></box></geometry>
+          <material>
+            <ambient>0.45 0.45 0.45 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- A physical simulated scene. No ROS pose/dimension truth is published. -->
+    <model name="red_box">
+      <static>true</static>
+      <pose>0.431 0 0.1265 0 0 0.35</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.25 0.17 0.253</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.25 0.17 0.253</size></box></geometry>
+          <material>
+            <ambient>0.85 0.02 0.02 1</ambient>
+            <diffuse>1.0 0.03 0.03 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="blue_object">
+      <static>true</static>
+      <pose>0.431 0 0.273 0 0 0.18</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.04 0.04 0.04</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.04 0.04 0.04</size></box></geometry>
+          <material>
+            <ambient>0.01 0.05 0.9 1</ambient>
+            <diffuse>0.01 0.08 1.0 1</diffuse>
+            <specular>0.05 0.05 0.05 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Gazebo cameras look along link +X. Pitch +90 deg points +X downwards. -->
+    <model name="sim_rgbd_camera">
+      <static>true</static>
+      <pose>0.431 0 0.85 0 1.57079632679 0</pose>
+      <link name="link">
+        <sensor name="global_camera" type="rgbd_camera">
+          <camera>
+            <horizontal_fov>1.21126</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.10</near>
+              <far>2.0</far>
+            </clip>
+          </camera>
+          <always_on>true</always_on>
+          <update_rate>15</update_rate>
+          <visualize>true</visualize>
+          <topic>camera/global_camera</topic>
+        </sensor>
+      </link>
+    </model>
+  </world>
+</sdf>

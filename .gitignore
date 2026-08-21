@@ -1,0 +1,31 @@
+# colcon and ROS runtime artifacts
+build/
+install/
+log/
+.colcon/
+*.log
+*.bag
+*.db3
+*.mcap
+
+# Downloaded upstream repositories
+third_party/
+
+# Python/editor artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.idea/
+.vscode/
+*~
+
+# Local calibration and machine-specific data
+*.calib
+*.env
+camera_extrinsics*.yaml
+rosbag2_*/
+openarm_logs/
+randomized_fake_*/
+backup*/
+*_backup/

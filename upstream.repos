@@ -1,0 +1,21 @@
+repositories:
+  third_party/openarm_description:
+    type: git
+    url: https://github.com/enactic/openarm_description.git
+    version: 6c7b720f1ba48e8bafa3a3dc752c45f397b42221
+  third_party/openarm_ros2:
+    type: git
+    url: https://github.com/enactic/openarm_ros2.git
+    version: 4e837e1d0dae692ff67b560b69d8d281d7a8d4ed
+  third_party/openarm_can:
+    type: git
+    url: https://github.com/enactic/openarm_can.git
+    version: a30364622ca939b8c8a741167c317b3e95e38a49
+  third_party/moveit_task_constructor:
+    type: git
+    url: https://github.com/moveit/moveit_task_constructor.git
+    version: 56c6a2a40ebff8a4d1644d9e6fac819c3cd3542f
+  third_party/py_binding_tools:
+    type: git
+    url: https://github.com/ros-planning/py_binding_tools.git
+    version: d34e7e960f626e1298e1ccb7edc8eb69082ebe48

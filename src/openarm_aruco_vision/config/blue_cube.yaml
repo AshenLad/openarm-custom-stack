@@ -1,0 +1,55 @@
+blue_cube_detector:
+  ros__parameters:
+    color_image_topic: /camera/global_camera/color/image_raw
+    aligned_depth_topic: /camera/global_camera/aligned_depth_to_color/image_raw
+    camera_info_topic: /camera/global_camera/color/camera_info
+    world_pose_topic: /blue_cube/pose
+    dimensions_topic: /blue_cube/dimensions
+    camera_pose_topic: /blue_cube/camera_pose
+    debug_image_topic: /blue_cube/debug_image
+    box_pose_topic: /box/pose
+    box_dimensions_topic: /box/dimensions
+    world_frame: world
+    cube_frame: blue_cube
+    # Legacy /blue_cube topic and frame names above are retained for MTC.
+    # Detection below is color-independent 3-D geometry inside the live box
+    # footprint; there are deliberately no HSV parameters.
+    depth_scale: 0.001
+    min_depth_m: 0.10
+    max_depth_m: 2.0
+    point_stride: 3
+    max_rgb_depth_time_delta_sec: 0.50
+    # Three times the box detector's 8 mm plane threshold separates observed
+    # D435i cover/edge residuals from real object volume.
+    box_top_clearance_m: 0.024
+    voxel_size_m: 0.004
+    # Exclude the wrapped box rim, whose folds can sit above the fitted plane.
+    # This is relative to the live footprint, never a fixed world/image ROI.
+    footprint_inset_m: 0.012
+    outlier_radius_m: 0.018
+    outlier_min_neighbors: 4
+    cluster_tolerance_m: 0.018
+    cluster_min_points: 20
+    # D435 depth-edge trails form sloped bands below the physical upper
+    # surface. This is a sensor-noise tolerance, not an object-height rule.
+    object_top_band_m: 0.002
+    # Robust k-NN filtering on the measured upper surface removes sparse D435
+    # depth-edge trails. Thresholds and connectivity scale with each cloud's
+    # own sampling density; these are not object dimensions or square priors.
+    top_density_neighbor_count: 6
+    top_density_mad_scale: 5.0
+    top_component_connectivity_scale: 3.0
+    stable_samples: 5
+    max_position_std_m: 0.008
+    max_size_std_m: 0.008
+    max_yaw_std_rad: 0.12
+    sample_jump_reset_m: 0.03
+    # Production lock contract: one noisy D435 frame no longer makes a static
+    # object disappear. A materially different geometry must persist for three
+    # frames before the old lock is released and a new stable window is built.
+    locked_max_position_change_m: 0.012
+    locked_max_size_change_m: 0.012
+    locked_max_yaw_change_rad: 0.20
+    lock_change_confirm_frames: 3
+    max_missed_frames: 3
+    processing_interval_sec: 0.10

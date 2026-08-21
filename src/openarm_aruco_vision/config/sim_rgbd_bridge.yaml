@@ -1,0 +1,23 @@
+- ros_topic_name: /camera/global_camera/color/image_raw
+  gz_topic_name: /camera/global_camera/image
+  ros_type_name: sensor_msgs/msg/Image
+  gz_type_name: gz.msgs.Image
+  direction: GZ_TO_ROS
+  frame_id: global_camera_color_optical_frame
+  qos_profile: SENSOR_DATA
+
+- ros_topic_name: /camera/global_camera/aligned_depth_to_color/image_raw
+  gz_topic_name: /camera/global_camera/depth_image
+  ros_type_name: sensor_msgs/msg/Image
+  gz_type_name: gz.msgs.Image
+  direction: GZ_TO_ROS
+  frame_id: global_camera_color_optical_frame
+  qos_profile: SENSOR_DATA
+
+- ros_topic_name: /camera/global_camera/color/camera_info
+  gz_topic_name: /camera/global_camera/camera_info
+  ros_type_name: sensor_msgs/msg/CameraInfo
+  gz_type_name: gz.msgs.CameraInfo
+  direction: GZ_TO_ROS
+  frame_id: global_camera_color_optical_frame
+  qos_profile: SENSOR_DATA

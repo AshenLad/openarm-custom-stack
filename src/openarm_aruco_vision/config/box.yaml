@@ -1,0 +1,79 @@
+box_detector:
+  ros__parameters:
+    color_image_topic: /camera/global_camera/color/image_raw
+    aligned_depth_topic: /camera/global_camera/aligned_depth_to_color/image_raw
+    camera_info_topic: /camera/global_camera/color/camera_info
+
+    pose_topic: /box/pose
+    dimensions_topic: /box/dimensions
+    detected_dimensions_topic: /box/detected_dimensions
+    top_height_topic: /box/top_height
+    footprint_topic: /box/footprint
+    debug_image_topic: /box/debug_image
+    world_frame: world
+    box_frame: detected_box
+
+    # Depth-first white top: color supplies white evidence only (low saturation
+    # + high value + optional RGB floor). A candidate is proposed only where
+    # white AND clearly elevated above the global support plane; a candidate
+    # touching the image border is rejected individually so another complete
+    # surface can still be measured.
+    surface_white_hsv_s_max: 90
+    surface_white_hsv_v_min: 170
+    surface_white_rgb_min: 150
+    surface_close_kernel: 11
+    surface_open_kernel: 3
+    surface_min_pixels: 2000
+    surface_border_margin_px: 8
+    # Do not reject a physical box by 2-D image rectangularity. Perspective,
+    # arbitrary yaw and specular tape distort the white mask.
+    # Rectangle validation happens later in world coordinates using RGB-D.
+    surface_min_plane_inlier_ratio: 0.55
+
+    depth_scale: 0.001
+    min_depth_m: 0.10
+    max_depth_m: 2.0
+    # Nano real-time profile: process at up to 5 Hz, retaining only the latest
+    # sensor messages. The full-resolution image is still used for detection.
+    point_stride: 4
+    max_cloud_points: 15000
+    processing_interval_sec: 0.20
+    # 0.50 s tolerates realsense RGB/aligned-depth stamp jitter under Nano CPU
+    # load; 0.20 s dropped many frames and starved /box/pose publishing.
+    max_rgb_depth_time_delta_sec: 0.50
+
+    ransac_iterations: 80
+    plane_distance_threshold_m: 0.008
+    max_plane_tilt_deg: 15.0
+    min_plane_points: 300
+
+    # Measure box height from two independently detected horizontal planes:
+    # top_z - surrounding support_z. No fixed center Z or fixed height is output.
+    # One global support plane is estimated once per frame over the whole valid
+    # depth cloud; support_z is evaluated from that plane at the fitted box
+    # center. Elevation removes ground and flat debris before candidates exist.
+    support_min_plane_points: 60
+    support_max_cloud_points: 10000
+    support_ransac_iterations: 60
+
+    stable_samples: 5
+    max_position_std_m: 0.008
+    max_top_height_std_m: 0.006
+    max_height_std_m: 0.008
+    max_dimension_std_m: 0.010
+    max_yaw_std_deg: 2.0
+    sample_jump_reset_m: 0.04
+    sample_yaw_jump_reset_deg: 12.0
+    # Once scene_manager consumes a LOCK, keep that exact transaction geometry
+    # instead of updating it with every later rolling median. A real move must
+    # exceed the execution tolerances for three consecutive processed frames.
+    locked_max_position_change_m: 0.008
+    locked_max_size_change_m: 0.015
+    locked_max_yaw_change_deg: 5.0
+    lock_change_confirm_frames: 3
+    max_missed_frames: 3
+
+    # Only the transmitted debug image is resized. Detection coordinates and
+    # published world geometry still use the original camera resolution.
+    debug_max_width: 640
+    debug_max_height: 480

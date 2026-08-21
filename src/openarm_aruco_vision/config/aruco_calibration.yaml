@@ -1,0 +1,12 @@
+aruco_detector:
+  ros__parameters:
+    image_topic: /camera/global_camera/color/image_raw
+    camera_info_topic: /camera/global_camera/color/camera_info
+    dictionary: DICT_6X6_50
+    marker_id: 0
+    marker_size_m: 0.080
+    marker_frame: aruco_marker_1
+    camera_frame: ""
+    publish_debug_image: true
+    debug_image_topic: /aruco_marker_1/debug_image
+    pose_topic: /aruco_marker_1/pose

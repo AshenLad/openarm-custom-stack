@@ -1,0 +1,100 @@
+openarm_mtc_pregrasp:
+  ros__parameters:
+    execution:
+      visual_recheck_wait_timeout: 2.0
+    diagnostics:
+      enable_tilt_scan: false
+      pitch_offsets_rad: [0.0, -0.03, 0.03, -0.05, 0.05]
+    robot:
+      planning_frame: world
+      arm_group: right_arm
+      gripper_group: right_gripper
+      eef: right_ee
+      ee_frame: openarm_right_ee_base_link
+      joint_states_topic: /joint_states
+      joint_state_wait_timeout: 5.0
+    gripper:
+      joint: openarm_right_finger_joint1
+      open_position: -0.35
+      post_release_position: 0.0
+      reference_joint_position: -0.10
+      reference_object_width: 0.040
+      aperture_preload: 0.002
+      finger_contact_radius: 0.070
+      tip_below_grasp_frame: 0.032
+      support_clearance: 0.008
+      touch_links: [openarm_right_ee_link1, openarm_right_ee_link2]
+    table:
+      id: table
+      collision_padding_xy: 0.02
+      collision_padding_top: 0.005
+      # The isolated fake scene has no /box/pose publisher.
+      recheck_before_execute: false
+    object:
+      id: blue_cube
+      pose_topic: /blue_cube/pose
+      dimensions_topic: /blue_cube/dimensions
+      pose_wait_timeout: 15.0
+      max_message_time_delta: 0.20
+      max_pose_age: 1.0
+      max_motion_xyz: [0.001, 0.001, 0.001]
+      max_size_change: [0.001, 0.001, 0.001]
+      max_motion_yaw: 0.01
+      max_support_height_error: 0.015
+      yaw_symmetry_order: 0
+      square_aspect_ratio_max: 1.30
+    tcp:
+      frame: openarm_right_grasp_frame
+    motion:
+      pregrasp_offset: 0.07
+      approach_min_distance: 0.04
+      lift_min_distance: 0.05
+      lift_max_distance: 0.055
+      cartesian_step: 0.005
+      cartesian_min_fraction: 0.90
+      grasp_roll: 0.0
+      grasp_pitch: 1.5707963267948966
+      grasp_yaw_reference: object
+      grasp_yaw_refinements: [0.0]
+      max_vertical_tilt_rad: 0.05
+      velocity_scaling: 0.30
+      acceleration_scaling: 0.30
+      planning_timeout: 10.0
+      max_solutions: 5
+      joint_limit_margin: 0.0
+      margin_joint_names: [openarm_right_joint6, openarm_right_joint7]
+    place:
+      local_xy_fractions: [0.0, 0.0, -0.5, 0.0, 0.5, 0.0, 0.0, -0.5, 0.0, 0.5]
+      yaw_reference: table
+      yaw_candidates: [0.0, 0.5235987755982988, 1.0471975511965976, 1.5707963267948966, 2.0943951023931953, 2.6179938779914944, 3.141592653589793, -2.6179938779914944, -2.0943951023931953, -1.5707963267948966, -1.0471975511965976, -0.5235987755982988]
+      preplace_offset: 0.07
+      retreat_distance: 0.07
+      edge_clearance: 0.02
+      surface_clearance: 0.005
+
+openarm_mtc_scene_manager:
+  ros__parameters:
+    scene:
+      configured: true
+    robot:
+      planning_frame: world
+    # Isolated regression geometry matching the 08-21 full hardware log.
+    # Never source this file for real hardware.
+    table:
+      id: table
+      source: fixed_fake_only
+      size: [0.253, 0.169, 0.242]
+      position: [0.324, -0.034, 0.123]
+      yaw: 1.490
+      padding_xy: 0.02
+      padding_top: 0.005
+
+fake_blue_cube_pose_publisher:
+  ros__parameters:
+    topic: /blue_cube/pose
+    dimensions_topic: /blue_cube/dimensions
+    frame_id: world
+    position: [0.3024, -0.0448, 0.270]
+    size: [0.035, 0.033, 0.042]
+    yaw: -0.0647
+    rate_hz: 10.0

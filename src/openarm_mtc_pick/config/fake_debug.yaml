@@ -1,0 +1,29 @@
+openarm_mtc_environment_check:
+  ros__parameters:
+    robot:
+      arm_group: right_arm
+      gripper_group: right_gripper
+      ee_frame: openarm_right_ee_base_link
+    gripper:
+      joint: openarm_right_finger_joint1
+
+openarm_mtc_scene_manager:
+  ros__parameters:
+    scene:
+      configured: true
+    robot:
+      planning_frame: world
+    # Deliberately placed away from the robot. These are visualization/smoke-test
+    # values only and must never be reused for real hardware.
+    table:
+      id: table
+      source: fixed_fake_only
+      size: [0.8, 0.6, 0.04]
+      position: [1.5, 0.0, -0.02]
+      yaw: 0.0
+      padding_xy: 0.0
+      padding_top: 0.0
+    object:
+      id: blue_cube
+      size: [0.05, 0.05, 0.05]
+      position: [1.5, 0.0, 0.025]
