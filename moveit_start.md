@@ -1,0 +1,1 @@
+ros2 launch openarm_bimanual_moveit_config demo.launch.py   arm_type:=openarm_v2.0   use_fake_hardware:=true   robot_controller:=joint_trajectory_controller   launch_rviz:=true
