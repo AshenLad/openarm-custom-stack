@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'joint_monitor = openarm_learning.joint_monitor:main',
             'tf_monitor = openarm_learning.tf_monitor:main',
+            'fake_camera_broadcaster = openarm_learning.fake_camera_broadcaster:main',
             ],
     },
 )

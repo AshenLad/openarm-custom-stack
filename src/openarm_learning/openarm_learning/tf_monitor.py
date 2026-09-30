@@ -1,7 +1,6 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.time import Time
-from rclpy.duration import Duration
 
 from geometry_msgs.msg import PoseStamped
 from tf2_ros import Buffer, TransformListener, TransformException
@@ -26,41 +25,29 @@ class TFMonitor(Node):
 
     def transform_object_pose(self):
 
-        # 假装这是 GDRNPP 输出的物体 Pose
+        # 假装这是 GDRNPP 输出的物体位姿
         object_pose = PoseStamped()
 
-        # 这个 Pose 是在哪个坐标系下表达的？
-        object_pose.header.frame_id = 'openarm_left_grasp_frame'
+        # GDRNPP 的 Pose 属于 optical frame
+        object_pose.header.frame_id = 'fake_camera_color_optical_frame'
 
-        #实验代码
-        # future_time = self.get_clock().now() + Duration(seconds=2.0)
-        # object_pose.header.stamp = future_time.to_msg()
+        # 这里先用时间戳 0：
+        # 表示查询最新可用 TF，方便当前实验
+        object_pose.header.stamp = Time().to_msg()
 
-        # 物体位于 grasp frame 的 X 正方向 10 cm
-        object_pose.pose.position.x = 0.1
-        object_pose.pose.position.y = 0.0
-        object_pose.pose.position.z = 0.0
+        # optical frame:
+        # +X 右，+Y 下，+Z 前
+        object_pose.pose.position.x = 0.2
+        object_pose.pose.position.y = -0.1
+        object_pose.pose.position.z = 0.7
 
-        # 物体姿态和 grasp frame 完全一致
+        # 假设物体姿态与 optical frame 相同
         object_pose.pose.orientation.x = 0.0
         object_pose.pose.orientation.y = 0.0
         object_pose.pose.orientation.z = 0.0
         object_pose.pose.orientation.w = 1.0
 
         try:
-            # # world <- grasp
-            # transform = self.tf_buffer.lookup_transform(
-            #     'world',
-            #     object_pose.header.frame_id,
-            #     Time()
-            # )
-
-            # # world <- object
-            # object_pose_world = do_transform_pose_stamped(
-            #     object_pose,
-            #     transform
-            # )
-            
             object_pose_world = self.tf_buffer.transform(
                 object_pose,
                 'world'
