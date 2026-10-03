@@ -4,6 +4,7 @@ from rclpy.action import ActionClient  # Action 客户端
 from control_msgs.action import FollowJointTrajectory  # 轨迹 Action 类型
 from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from action_msgs.msg import GoalStatus  # Action 最终状态的常量
 
 
 class TrajectoryActionClient(Node):
@@ -49,6 +50,7 @@ class TrajectoryActionClient(Node):
                 self.get_logger().info(f'{name}={position:.4f} rad')
 
             self.build_trajectory()  # 七个位置齐全后，构造一次轨迹
+            self.send_goal()  # 再发送一次任务请求
 
     def build_trajectory(self):
         target_positions = self.current_positions.copy()  # 单独建立目标位置
@@ -72,6 +74,44 @@ class TrajectoryActionClient(Node):
         self.get_logger().info(
             f'到达时间：{point.time_from_start.sec} 秒'
         )
+        
+    def send_goal(self):
+        goal = FollowJointTrajectory.Goal()  # 创建任务请求
+        goal.trajectory = self.trajectory  # 把已构造的轨迹装入请求
+
+        self.get_logger().info('发送 Goal')
+        self.send_future = self.client.send_goal_async(goal)  # 异步发送
+        self.send_future.add_done_callback(
+            self.goal_response_callback  # 收到接受/拒绝回复后调用
+        )
+
+    def goal_response_callback(self, future):
+        self.goal_handle = future.result()  # 取得任务句柄
+
+        if self.goal_handle.accepted:
+            self.get_logger().info('Goal 已接受')
+            self.result_future = self.goal_handle.get_result_async()  # 请求最终结果
+            self.result_future.add_done_callback(
+                self.result_callback  # 任务结束、结果到达后执行
+            )
+        else:
+            self.get_logger().warning('Goal 被拒绝')
+
+    def result_callback(self, future):
+        response = future.result()  # 取得完整的结果回复
+        result = response.result  # 其中的轨迹执行结果
+
+        self.get_logger().info(f'最终状态：{response.status}')
+        self.get_logger().info(f'轨迹错误码：{result.error_code}')
+        self.get_logger().info(f'轨迹说明：{result.error_string!r}')
+
+        if (
+            response.status == GoalStatus.STATUS_SUCCEEDED
+            and result.error_code == FollowJointTrajectory.Result.SUCCESSFUL
+        ):
+            self.get_logger().info('执行成功')
+        else:
+            self.get_logger().error('任务未成功，请检查最终状态和轨迹说明')
 
 
 def main(args=None):
