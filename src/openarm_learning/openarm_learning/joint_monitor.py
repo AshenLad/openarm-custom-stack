@@ -27,7 +27,7 @@ class JointMonitor(Node):
         index = msg.name.index(target_name)
 
         if index >= len(msg.position):
-            self.get_logger(
+            self.get_logger().info(
                 f'No position data for {target_name}'
             )
         

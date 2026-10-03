@@ -27,6 +27,7 @@ setup(
             'joint_monitor = openarm_learning.joint_monitor:main',
             'tf_monitor = openarm_learning.tf_monitor:main',
             'fake_camera_broadcaster = openarm_learning.fake_camera_broadcaster:main',
+            'trajectory_action_client = openarm_learning.trajectory_action_client:main',
             ],
     },
 )
