@@ -40,7 +40,7 @@ class TrajectoryActionClient(Node):
             if name not in joint_positions:
                 return  # 本条消息缺少需要的位置，等待下一条
 
-        first_sample = self.current_positions is None
+        first_sample = self.current_positions is None #True or Flase
         self.current_positions = [
             joint_positions[name] for name in self.joint_names
         ]  # 按左臂 joint1 到 joint7 的顺序保存
