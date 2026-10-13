@@ -1,3 +1,5 @@
+import array
+
 import rclpy  # ROS 2 Python 库
 from rclpy.node import Node  # 节点基类
 from rclpy.action import ActionClient  # Action 客户端
@@ -18,7 +20,8 @@ class TrajectoryActionClient(Node):
         self.joint_names = [
             f'openarm_left_joint{i}' for i in range(1, 8)
         ]  # 左臂 joint1 到 joint7
-        self.current_positions = None  # 尚未收到完整的七关节位置
+        self.current_positions: list[float] | None = None  # 尚未收到完整的七关节位置
+
         
         self.subscription = self.create_subscription(
             JointState,
@@ -80,10 +83,40 @@ class TrajectoryActionClient(Node):
         goal.trajectory = self.trajectory  # 把已构造的轨迹装入请求
 
         self.get_logger().info('发送 Goal')
-        self.send_future = self.client.send_goal_async(goal)  # 异步发送
+        self.send_future = self.client.send_goal_async( # 异步发送
+            goal,
+            feedback_callback=self.feedback_callback,  # 收到过程反馈时调用
+            )  
         self.send_future.add_done_callback(
             self.goal_response_callback  # 收到接受/拒绝回复后调用
         )
+        
+    def feedback_callback(self, feedback_msg):
+        feedback = feedback_msg.feedback  # 从消息包装中取出反馈内容
+        name = self.joint_names[0]  # 本次只观察 openarm_left_joint1
+
+        if name not in feedback.joint_names:
+            return  # 这条反馈没有目标关节
+
+        index = feedback.joint_names.index(name)  # 按名字找到对应下标
+        arrays = (
+            feedback.desired.positions,
+            feedback.actual.positions,
+            feedback.error.positions,
+        )
+        if any(index >= len(values) for values in arrays):
+            return  # 本条反馈的位置字段不完整
+
+        desired = feedback.desired.positions[index]
+        actual = feedback.actual.positions[index]
+        error = feedback.error.positions[index]
+
+        self.get_logger().info(
+            f'反馈 {name}：期望={desired:.4f} rad，'
+            f'实际={actual:.4f} rad，误差={error:.4f} rad',
+            throttle_duration_sec=0.5,  # 最多约每0.5秒打印一次，避免刷屏
+        )
+        
 
     def goal_response_callback(self, future):
         self.goal_handle = future.result()  # 取得任务句柄
