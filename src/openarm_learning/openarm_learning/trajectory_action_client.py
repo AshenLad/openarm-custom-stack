@@ -1,4 +1,5 @@
 import array
+from time import monotonic
 
 import rclpy  # ROS 2 Python 库
 from rclpy.node import Node  # 节点基类
@@ -161,8 +162,18 @@ def main(args=None):
         if found:
             node.get_logger().info(f'找到服务端：{node.action_name}')
             
+            state_deadline = monotonic()+5.0
+            node.get_logger().info('等待完整关节状态（最多5秒）')
+            
             while rclpy.ok() and not node.done:
                 rclpy.spin_once(node, timeout_sec=0.1)
+
+                if(
+                    node.current_positions is None
+                   and monotonic() >= state_deadline
+                   ):
+                    node.get_logger().error('等待完整关节状态超时，未发送 Goal')
+                    node.done = True
             
             if node.done:
                 node.get_logger().info(f'任务处理结束，客户端退出')
