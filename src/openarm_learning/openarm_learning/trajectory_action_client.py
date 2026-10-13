@@ -22,6 +22,7 @@ class TrajectoryActionClient(Node):
         ]  # 左臂 joint1 到 joint7
         self.current_positions: list[float] | None = None  # 尚未收到完整的七关节位置
 
+        self.done = False
         
         self.subscription = self.create_subscription(
             JointState,
@@ -129,6 +130,7 @@ class TrajectoryActionClient(Node):
             )
         else:
             self.get_logger().warning('Goal 被拒绝')
+            self.done = True
 
     def result_callback(self, future):
         response = future.result()  # 取得完整的结果回复
@@ -145,6 +147,8 @@ class TrajectoryActionClient(Node):
             self.get_logger().info('执行成功')
         else:
             self.get_logger().error('任务未成功，请检查最终状态和轨迹说明')
+        
+        self.done = True
 
 
 def main(args=None):
@@ -156,9 +160,20 @@ def main(args=None):
 
         if found:
             node.get_logger().info(f'找到服务端：{node.action_name}')
-            rclpy.spin(node)
+            
+            while rclpy.ok() and not node.done:
+                rclpy.spin_once(node, timeout_sec=0.1)
+            
+            if node.done:
+                node.get_logger().info(f'任务处理结束，客户端退出')
+            
         else:
             node.get_logger().error(f'等待服务端超时：{node.action_name}')
+    
+    except KeyboardInterrupt:
+        pass
+    
     finally:
         node.destroy_node()  # 释放节点及其客户端
-        rclpy.shutdown()  # 关闭本程序的 ROS 2 环境
+        if rclpy.ok():
+            rclpy.shutdown()  # 关闭本程序的 ROS 2 环境
