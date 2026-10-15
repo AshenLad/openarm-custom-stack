@@ -1,5 +1,6 @@
 import array
 from time import monotonic
+from urllib import response
 
 import rclpy  # ROS 2 Python 库
 from rclpy.node import Node  # 节点基类
@@ -26,7 +27,8 @@ class TrajectoryActionClient(Node):
         self.done = False
         self.send_future = None  # 尚未发送，没有待等的回复
         self.goal_reply_deadline = None  # 尚未开始回复计时
-        self.cancel_deadline = None # 尚未收到接受回复，不开始取消计时
+        self.result_deadline = None  # 尚未开始等待最终结果
+        self.result_future = None    # 尚未请求最终结果
         self.cancel_future = None    # 尚未发送取消请求
         
         self.subscription = self.create_subscription(
@@ -130,7 +132,8 @@ class TrajectoryActionClient(Node):
         if self.goal_handle.accepted:
             self.get_logger().info('Goal 已接受')
             
-            self.cancel_deadline = monotonic() + 2.0 #接受后两秒取消
+            self.result_deadline = monotonic() + 5.0 #5秒取消
+            self.get_logger().info('等待执行结果（最多5秒）')
             
             self.result_future = self.goal_handle.get_result_async()  # 请求最终结果
             self.result_future.add_done_callback(
@@ -140,6 +143,13 @@ class TrajectoryActionClient(Node):
             self.get_logger().warning('Goal 被拒绝')
             self.done = True
 
+    def cancel_response_callback(self, future):
+        response = future.result()
+        self.get_logger().info(f'取消回复码：{response.return_code}')
+        self.get_logger().info(
+            f'进入取消流程的任务数：{len(response.goals_canceling)}'
+        )  # 列表里记录了接受取消请求的任务
+    
     def result_callback(self, future):
         response = future.result()  # 取得完整的结果回复
         result = response.result  # 其中的轨迹执行结果
@@ -195,13 +205,18 @@ def main(args=None):
                     node.done = True
                     
                 if (
-                    not node.done
-                    and node.cancel_deadline is not None
-                    and monotonic() >= node.cancel_deadline
+                    not node.done  # 任务处理仍在进行
+                    and node.result_deadline is not None  # 已开始结果计时
+                    and node.result_future is not None  # 已请求最终结果
+                    and not node.result_future.done()  # 最终结果还没到
+                    and monotonic() >= node.result_deadline  # 等待期限已到
                 ):
-                    node.cancel_deadline = None
-                    node.get_logger().info(f'发送取消请求')
+                    node.result_deadline = None  # 关闭计时，避免重复请求取消
+                    node.get_logger().warning('等待执行结果超时，发送取消请求')
                     node.cancel_future = node.goal_handle.cancel_goal_async()
+                    node.cancel_future.add_done_callback(
+                        node.cancel_response_callback  # 继续使用已有取消回复回调
+                    )
             
             if node.done:
                 node.get_logger().info(f'任务处理结束，客户端退出')
