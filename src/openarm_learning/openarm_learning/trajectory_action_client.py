@@ -75,6 +75,9 @@ class TrajectoryActionClient(Node):
 
         self.trajectory = JointTrajectory()  # 创建整条轨迹
         self.trajectory.joint_names = self.joint_names.copy()  # 固定关节顺序
+
+        # self.trajectory.joint_names[0] = 'learning_invalid_joint'  # 实验：故意写错第一个名字
+        
         self.trajectory.points = [point]  # 本次轨迹只有一个目标点
 
         self.get_logger().info(
