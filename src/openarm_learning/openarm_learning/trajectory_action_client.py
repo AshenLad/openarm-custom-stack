@@ -30,6 +30,7 @@ class TrajectoryActionClient(Node):
         self.result_deadline = None  # 尚未开始等待最终结果
         self.result_future = None    # 尚未请求最终结果
         self.cancel_future = None    # 尚未发送取消请求
+        self.cancel_result_deadline = None  # 尚未发送取消请求，不启动收尾计时
         
         self.subscription = self.create_subscription(
             JointState,
@@ -69,7 +70,7 @@ class TrajectoryActionClient(Node):
 
         point = JointTrajectoryPoint()  # 创建一个轨迹点
         point.positions = target_positions  # 这个点的七个目标位置
-        point.time_from_start.sec = 10  # 从轨迹开始算，x秒到达
+        point.time_from_start.sec = 3  # 从轨迹开始算，x秒到达
         point.time_from_start.nanosec = 0  # 本次没有不足1秒的部分
 
         self.trajectory = JointTrajectory()  # 创建整条轨迹
@@ -213,10 +214,23 @@ def main(args=None):
                 ):
                     node.result_deadline = None  # 关闭计时，避免重复请求取消
                     node.get_logger().warning('等待执行结果超时，发送取消请求')
+                    node.cancel_result_deadline = monotonic() + 5.0
                     node.cancel_future = node.goal_handle.cancel_goal_async()
                     node.cancel_future.add_done_callback(
                         node.cancel_response_callback  # 继续使用已有取消回复回调
                     )
+                    
+                if (
+                    not node.done  # 最终结果回调尚未结束本次任务处理
+                    and node.cancel_result_deadline is not None  # 收尾计时已启动
+                    and node.result_future is not None  # 已请求最终结果
+                    and not node.result_future.done()  # 最终结果仍未到达
+                    and monotonic() >= node.cancel_result_deadline  # 收尾期限已到
+                ):
+                    node.get_logger().error(
+                        '取消后等待最终结果超时：任务状态未知，客户端退出'
+                    )
+                    node.done = True  # 结束客户端等待，由 finally 清理资源
             
             if node.done:
                 node.get_logger().info(f'任务处理结束，客户端退出')
