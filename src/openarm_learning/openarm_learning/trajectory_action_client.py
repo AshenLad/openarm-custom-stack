@@ -24,6 +24,10 @@ class TrajectoryActionClient(Node):
         self.current_positions: list[float] | None = None  # 尚未收到完整的七关节位置
 
         self.done = False
+        self.send_future = None  # 尚未发送，没有待等的回复
+        self.goal_reply_deadline = None  # 尚未开始回复计时
+        self.cancel_deadline = None # 尚未收到接受回复，不开始取消计时
+        self.cancel_future = None    # 尚未发送取消请求
         
         self.subscription = self.create_subscription(
             JointState,
@@ -63,7 +67,7 @@ class TrajectoryActionClient(Node):
 
         point = JointTrajectoryPoint()  # 创建一个轨迹点
         point.positions = target_positions  # 这个点的七个目标位置
-        point.time_from_start.sec = 3  # 从轨迹开始算，3秒到达
+        point.time_from_start.sec = 10  # 从轨迹开始算，x秒到达
         point.time_from_start.nanosec = 0  # 本次没有不足1秒的部分
 
         self.trajectory = JointTrajectory()  # 创建整条轨迹
@@ -84,8 +88,9 @@ class TrajectoryActionClient(Node):
         goal = FollowJointTrajectory.Goal()  # 创建任务请求
         goal.trajectory = self.trajectory  # 把已构造的轨迹装入请求
 
-        self.get_logger().info('发送 Goal')
-        self.send_future = self.client.send_goal_async( # 异步发送
+        self.get_logger().info('发送 Goal，等待接受或拒绝回复（最多5秒）')
+        self.goal_reply_deadline = monotonic() + 5.0  # 发送时设定期限
+        self.send_future = self.client.send_goal_async( # 异步发送，返回一个Future实例
             goal,
             feedback_callback=self.feedback_callback,  # 收到过程反馈时调用
             )  
@@ -118,13 +123,15 @@ class TrajectoryActionClient(Node):
             f'实际={actual:.4f} rad，误差={error:.4f} rad',
             throttle_duration_sec=0.5,  # 最多约每0.5秒打印一次，避免刷屏
         )
-        
 
     def goal_response_callback(self, future):
         self.goal_handle = future.result()  # 取得任务句柄
 
         if self.goal_handle.accepted:
             self.get_logger().info('Goal 已接受')
+            
+            self.cancel_deadline = monotonic() + 2.0 #接受后两秒取消
+            
             self.result_future = self.goal_handle.get_result_async()  # 请求最终结果
             self.result_future.add_done_callback(
                 self.result_callback  # 任务结束、结果到达后执行
@@ -146,10 +153,12 @@ class TrajectoryActionClient(Node):
             and result.error_code == FollowJointTrajectory.Result.SUCCESSFUL
         ):
             self.get_logger().info('执行成功')
+        elif response.status == GoalStatus.STATUS_CANCELED:  # 状态5：任务已取消
+            self.get_logger().info('任务已取消')
         else:
             self.get_logger().error('任务未成功，请检查最终状态和轨迹说明')
-        
-        self.done = True
+
+        self.done = True  # 收到最终结果后，才让主循环退出
 
 
 def main(args=None):
@@ -174,6 +183,25 @@ def main(args=None):
                    ):
                     node.get_logger().error('等待完整关节状态超时，未发送 Goal')
                     node.done = True
+                    
+                if (
+                    node.send_future is not None  # 已发送 Goal
+                    and not node.send_future.done()  # 回复仍未到达
+                    and monotonic() >= node.goal_reply_deadline  # 期限已到
+                ):
+                    node.get_logger().error(
+                        '等待 Goal 回复超时：任务状态未知，不自动重发'
+                    )
+                    node.done = True
+                    
+                if (
+                    not node.done
+                    and node.cancel_deadline is not None
+                    and monotonic() >= node.cancel_deadline
+                ):
+                    node.cancel_deadline = None
+                    node.get_logger().info(f'发送取消请求')
+                    node.cancel_future = node.goal_handle.cancel_goal_async()
             
             if node.done:
                 node.get_logger().info(f'任务处理结束，客户端退出')
