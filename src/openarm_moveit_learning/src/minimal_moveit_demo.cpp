@@ -86,6 +86,19 @@ int run_demo(const rclcpp::Node::SharedPtr & node)
                     first.accelerations[0], last.accelerations[0]);
     }
 
+    RCLCPP_INFO(logger, "Starting trajectory execution");
+    auto exec_result = move_group.execute(plan);
+
+    if (!exec_result) {
+        RCLCPP_ERROR(
+            logger,
+            "Execution failed, error code: %d",
+            exec_result.val
+        );
+        return 1;
+    }
+    RCLCPP_INFO(logger, "Execution succeeded!");
+
     return 0;
 }
 
