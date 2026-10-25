@@ -4,7 +4,8 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from moveit_configs_utils import MoveItConfigsBuilder
-
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
     description_share = Path(
@@ -15,6 +16,12 @@ def generate_launch_description():
         / "assets/robot/openarm_v2.0/urdf/openarm_v20.urdf.xacro"
     )
     config_dir = "config/openarm_v2.0"
+    
+    demo_arg = DeclareLaunchArgument(
+        "demo",
+        default_value="pose",
+        description="Choose demo mode: pose or joint"
+    )
 
     config = (
         MoveItConfigsBuilder(
@@ -48,6 +55,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        demo_arg,
         Node(
             package="openarm_moveit_learning",
             executable="minimal_moveit_demo",
@@ -57,6 +65,7 @@ def generate_launch_description():
                 config.robot_description,
                 config.robot_description_semantic,
                 config.robot_description_kinematics,
+                {"demo": LaunchConfiguration("demo")},
             ],
         )
     ])
