@@ -24,12 +24,98 @@ int run_demo(const rclcpp::Node::SharedPtr & node)
         return 1;
     }
 
+    const auto eef_link = move_group.getEndEffectorLink();
+    RCLCPP_INFO(logger, "Planning frame: %s",
+                move_group.getPlanningFrame().c_str());
+
+    RCLCPP_INFO(logger, "End effector link: %s",
+                eef_link.c_str());
+
+    if (eef_link.empty()) {
+        RCLCPP_ERROR(logger, "No end effector link configured");
+        return 1;
+    }
+
+    const auto pose = move_group.getCurrentPose(eef_link);
+
+    RCLCPP_INFO(logger, "Pose frame: %s",
+                pose.header.frame_id.c_str());
+
+    RCLCPP_INFO(logger, "Position: x=%.4f, y=%.4f, z=%.4f",
+                pose.pose.position.x,
+                pose.pose.position.y,
+                pose.pose.position.z);
+
+    RCLCPP_INFO(logger, "Orientation: x=%.4f, y=%.4f, z=%.4f, w=%.4f",
+                pose.pose.orientation.x,
+                pose.pose.orientation.y,
+                pose.pose.orientation.z,
+                pose.pose.orientation.w);
+
+    auto target_pose = pose;
+    target_pose.pose.position.z += 0.01;
+
+    move_group.setStartStateToCurrentState();
+
+    if (!move_group.setPoseTarget(target_pose, eef_link)) {
+        RCLCPP_ERROR(logger, "Failed to set pose target");
+        return 1;
+    }
+
+    
     const auto * joint_group =
         current_state->getRobotModel()->getJointModelGroup("left_arm");
     if (!joint_group) {
         RCLCPP_ERROR(logger, "left_arm group not found");
         return 1;
     }
+
+    RCLCPP_INFO(
+        logger,
+        "Target position: x=%.4f, y=%.4f, z=%.4f",
+        target_pose.pose.position.x,
+        target_pose.pose.position.y,
+        target_pose.pose.position.z
+    );
+
+    moveit::planning_interface::MoveGroupInterface::Plan pose_plan;
+    auto pose_result = move_group.plan(pose_plan);
+
+    if (!pose_result) {
+        RCLCPP_ERROR(logger, "Pose planning failed: %d", pose_result.val);
+        return 1;
+    }
+
+    RCLCPP_INFO(logger, "Pose planning succeeded!");
+
+    //正运动学验证
+    const auto& pose_traj = pose_plan.trajectory.joint_trajectory;
+    if (pose_traj.points.empty() ||
+        pose_traj.joint_names.size() != pose_traj.points.back().positions.size()) {
+        RCLCPP_ERROR(logger, "Invalid planned trajectory");
+        return 1;
+    }
+
+    moveit::core::RobotState final_state(*current_state);
+
+    final_state.setVariablePositions(
+        pose_traj.joint_names,
+        pose_traj.points.back().positions
+    );
+    final_state.update();
+
+    const auto& final_tf = final_state.getGlobalLinkTransform(eef_link);
+
+    RCLCPP_INFO(
+        logger,
+        "FK final position: x=%.4f, y=%.4f, z=%.4f",
+        final_tf.translation().x(),
+        final_tf.translation().y(),
+        final_tf.translation().z()
+    );
+
+    return 0; // 本次只读取位姿，不再执行下面旧的规划代码
+//////////////////////////////////////////////////////////
 
     std::vector<double> positions;
     current_state->copyJointGroupPositions(joint_group, positions);
