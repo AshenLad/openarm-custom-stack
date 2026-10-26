@@ -1,3 +1,4 @@
+#include <string>
 
 #include "rclcpp/rclcpp.hpp"
 #include <moveit/planning_scene_interface/planning_scene_interface.hpp>
@@ -13,6 +14,25 @@ int main(int argc, char** argv)
 
     moveit::planning_interface::PlanningSceneInterface scene;
 
+    // 删除模式：只移除障碍物，不添加新物体
+    if (argc > 1 && std::string(argv[1]) == "remove") {
+        moveit_msgs::msg::CollisionObject box;
+        box.id = "stage4_demo_box";
+        box.header.frame_id = "world";
+        box.operation = moveit_msgs::msg::CollisionObject::REMOVE;
+
+        const bool success = scene.applyCollisionObject(box);
+
+        if (!success) {
+            RCLCPP_ERROR(logger, "Failed to remove collision box");
+        } else {
+            RCLCPP_INFO(logger, "Collision box removed successfully");
+        }
+
+        rclcpp::shutdown();
+        return success ? 0 : 1;
+    }
+
     moveit_msgs::msg::CollisionObject box;
     box.id = "stage4_demo_box";
     box.header.frame_id = "world";
@@ -23,9 +43,9 @@ int main(int argc, char** argv)
 
     geometry_msgs::msg::Pose pose;
     pose.orientation.w = 1.0;
-    pose.position.x = 0.35;
-    pose.position.y = 0.0;
-    pose.position.z = 0.25;
+    pose.position.x = 0.05;
+    pose.position.y = 0.2;
+    pose.position.z = 0.55;
 
     box.primitives.push_back(shape);
     box.primitive_poses.push_back(pose);

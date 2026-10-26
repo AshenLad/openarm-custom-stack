@@ -279,6 +279,61 @@ int run_demo(const rclcpp::Node::SharedPtr & node)
     RCLCPP_INFO(logger, "End effector link: %s", move_group.getEndEffectorLink().c_str());
 
     const std::string demo = select_demo(node);
+
+    if (demo == "state") {
+        RCLCPP_INFO(logger, "Checking current RobotState...");
+
+        auto state = move_group.getCurrentState(2.0);
+
+        if (!state) {
+            RCLCPP_ERROR(logger, "RobotState unavailable after 2 seconds");
+            return 1;
+        }
+
+        RCLCPP_INFO(logger, "RobotState received successfully");
+        return 0;
+    }
+    if (demo == "ik_fail") {
+        const auto eef_link = move_group.getEndEffectorLink();
+
+        if (eef_link.empty()) {
+            RCLCPP_ERROR(logger, "End effector link is empty");
+            return 1;
+        }
+
+        // 获取当前末端位姿
+        auto target = move_group.getCurrentPose(eef_link);
+
+        // 故意设置明显不可达的目标
+        target.pose.position.x += 10.0;
+
+        RCLCPP_INFO(logger,
+            "Testing unreachable target: x=%.3f, y=%.3f, z=%.3f",
+            target.pose.position.x,
+            target.pose.position.y,
+            target.pose.position.z);
+
+        move_group.setStartStateToCurrentState();
+        move_group.setPlanningTime(3.0);
+
+        if (!move_group.setPoseTarget(target, eef_link)) {
+            RCLCPP_ERROR(logger, "Failed to set pose target");
+            return 1;
+        }
+
+        moveit::planning_interface::MoveGroupInterface::Plan plan;
+        auto result = move_group.plan(plan);
+
+        if (!result) {
+            RCLCPP_INFO(logger,
+                "Expected planning failure, error code: %d",
+                result.val);
+            return 0;
+        }
+
+        RCLCPP_WARN(logger, "Unexpectedly found a plan");
+        return 1;
+    }
     if (demo == "pose") {
         return run_pose_demo(move_group, logger);
     }

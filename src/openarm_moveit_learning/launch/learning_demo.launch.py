@@ -53,7 +53,7 @@ def generate_launch_description():
         )
         .to_moveit_configs()
     )
-
+    
     return LaunchDescription([
         demo_arg,
         Node(
