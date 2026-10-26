@@ -20,7 +20,7 @@
 - OpenCV / GDRNPP / 6D Pose
 - TF2 / 机器人运动学 / 控制
 
-## Stage 0–3：基础系统（已完成）
+## Stage 0–3：基础系统
 
 - Stage 0：开发环境、Workspace、colcon
 - Stage 1：ROS2 Node、Topic、Service、Action
