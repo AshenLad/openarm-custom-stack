@@ -9,18 +9,29 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(moveit_ros_planning_interface REQUIRED)
+find_package(moveit_msgs REQUIRED)
+find_package(shape_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+
 
 add_executable(minimal_moveit_demo
   src/minimal_moveit_demo.cpp
   )
-
-ament_target_dependencies(
-  minimal_moveit_demo
-  rclcpp
-  moveit_ros_planning_interface
+add_executable(scene_obstacle_demo
+  src/scene_obstacle_demo.cpp
 )
 
-install(TARGETS minimal_moveit_demo
+foreach(target minimal_moveit_demo scene_obstacle_demo)
+  ament_target_dependencies(${target}
+    rclcpp
+    moveit_ros_planning_interface
+    moveit_msgs
+    shape_msgs
+    geometry_msgs
+  )
+endforeach()
+
+install(TARGETS minimal_moveit_demo scene_obstacle_demo
   DESTINATION lib/${PROJECT_NAME}
 )
 
