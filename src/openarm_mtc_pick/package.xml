@@ -23,6 +23,7 @@
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
   <exec_depend>moveit_configs_utils</exec_depend>
+  <exec_depend>moveit_task_constructor_capabilities</exec_depend>
   <exec_depend>openarm_bimanual_moveit_config</exec_depend>
   <exec_depend>openarm_aruco_vision</exec_depend>
   <exec_depend>openarm_description</exec_depend>

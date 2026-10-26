@@ -12,7 +12,9 @@ openarm_mtc_pregrasp:
       eef: right_ee
       ee_frame: openarm_right_ee_base_link
       joint_states_topic: /joint_states
-      joint_state_wait_timeout: 5.0
+      # Controller spawners may retry service discovery during a cold start.
+      # Wait for feedback rather than assuming the launch timer means ready.
+      joint_state_wait_timeout: 30.0
     gripper:
       joint: openarm_right_finger_joint1
       open_position: -0.35

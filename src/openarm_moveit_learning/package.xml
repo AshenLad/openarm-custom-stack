@@ -15,6 +15,13 @@
   <depend>shape_msgs</depend>
   <depend>geometry_msgs</depend>
 
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>moveit_configs_utils</exec_depend>
+  <exec_depend>openarm_bimanual_moveit_config</exec_depend>
+  <exec_depend>openarm_description</exec_depend>
+
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 

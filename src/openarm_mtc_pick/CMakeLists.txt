@@ -42,6 +42,7 @@ ament_target_dependencies(mtc_pregrasp
   moveit_task_constructor_core
   moveit_task_constructor_msgs
   rclcpp
+  rclcpp_action
   sensor_msgs
   shape_msgs
 )
