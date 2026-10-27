@@ -9,15 +9,18 @@
 
 namespace mtc = moveit::task_constructor;
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
   options.automatically_declare_parameters_from_overrides(true);
   auto node = rclcpp::Node::make_shared("openarm_mtc_environment_check", options);
-  std::thread spinner([node] { rclcpp::spin(node); });
+  std::thread spinner([node]
+                      { rclcpp::spin(node); });
 
   int result = 0;
-  try {
+  try
+  {
     const std::string arm_group = node->get_parameter("robot.arm_group").as_string();
     const std::string gripper_group = node->get_parameter("robot.gripper_group").as_string();
     const std::string ee_frame = node->get_parameter("robot.ee_frame").as_string();
@@ -28,21 +31,26 @@ int main(int argc, char** argv) {
     task.loadRobotModel(node);
     const auto model = task.getRobotModel();
 
-    const auto* arm = model->getJointModelGroup(arm_group);
-    const auto* gripper = model->getJointModelGroup(gripper_group);
-    if (!arm) {
+    const auto *arm = model->getJointModelGroup(arm_group);
+    const auto *gripper = model->getJointModelGroup(gripper_group);
+    if (!arm)
+    {
       throw std::runtime_error("missing planning group: " + arm_group);
     }
-    if (!gripper) {
+    if (!gripper)
+    {
       throw std::runtime_error("missing planning group: " + gripper_group);
     }
-    if (!model->hasLinkModel(ee_frame)) {
+    if (!model->hasLinkModel(ee_frame))
+    {
       throw std::runtime_error("missing end-effector link: " + ee_frame);
     }
-    if (!model->hasJointModel(gripper_joint)) {
+    if (!model->hasJointModel(gripper_joint))
+    {
       throw std::runtime_error("missing gripper joint: " + gripper_joint);
     }
-    if (gripper->getLinkModelNamesWithCollisionGeometry().empty()) {
+    if (gripper->getLinkModelNamesWithCollisionGeometry().empty())
+    {
       throw std::runtime_error("gripper group has no collision geometry links");
     }
 
@@ -55,14 +63,17 @@ int main(int argc, char** argv) {
 
     task.add(std::make_unique<mtc::stages::CurrentState>("current state"));
     task.init();
-    if (!task.plan(1)) {
+    if (!task.plan(1))
+    {
       throw std::runtime_error(
           "CurrentState produced no solution; check move_group/get_planning_scene and joint_states");
     }
     task.introspection().publishSolution(*task.solutions().front());
     RCLCPP_INFO(node->get_logger(),
                 "MTC plan-only smoke test passed; no trajectory was executed");
-  } catch (const std::exception& error) {
+  }
+  catch (const std::exception &error)
+  {
     RCLCPP_ERROR(node->get_logger(), "Environment check failed: %s", error.what());
     result = 1;
   }

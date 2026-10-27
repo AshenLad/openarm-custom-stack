@@ -106,8 +106,7 @@ def locked_box_measurement_changed(
             abs(float(sample[index] - locked[index])) > size_threshold_m
             for index in size_indices
         )
-        or abs(axis_angle_error(float(sample[3]), float(locked[3])))
-        > yaw_threshold_rad
+        or abs(axis_angle_error(float(sample[3]), float(locked[3]))) > yaw_threshold_rad
     )
 
 
@@ -464,9 +463,7 @@ class BoxDetector(Node):
         self.sample_yaw_jump_reset = math.radians(
             float(value("sample_yaw_jump_reset_deg"))
         )
-        self.locked_max_position_change = float(
-            value("locked_max_position_change_m")
-        )
+        self.locked_max_position_change = float(value("locked_max_position_change_m"))
         self.locked_max_size_change = float(value("locked_max_size_change_m"))
         self.locked_max_yaw_change = math.radians(
             float(value("locked_max_yaw_change_deg"))
@@ -503,7 +500,9 @@ class BoxDetector(Node):
         )
         self.input_callback_group = MutuallyExclusiveCallbackGroup()
         self.processing_callback_group = MutuallyExclusiveCallbackGroup()
-        self.pose_publisher = self.create_publisher(PoseStamped, str(value("pose_topic")), 10)
+        self.pose_publisher = self.create_publisher(
+            PoseStamped, str(value("pose_topic")), 10
+        )
         self.dimensions_publisher = self.create_publisher(
             Vector3Stamped, str(value("dimensions_topic")), 10
         )
@@ -571,7 +570,11 @@ class BoxDetector(Node):
             raise ValueError("white-surface segmentation parameters are invalid")
         if not 0.0 < self.min_depth < self.max_depth:
             raise ValueError("depth range is invalid")
-        if self.depth_scale <= 0.0 or self.point_stride < 1 or self.max_cloud_points < 3:
+        if (
+            self.depth_scale <= 0.0
+            or self.point_stride < 1
+            or self.max_cloud_points < 3
+        ):
             raise ValueError("depth sampling parameters are invalid")
         if self.processing_interval_ns < 0 or self.max_time_delta_ns <= 0:
             raise ValueError("processing/synchronization timing is invalid")
@@ -684,7 +687,9 @@ class BoxDetector(Node):
             return
         depth_stamp_ns = self.stamp_ns(depth_message)
         if abs(stamp_ns - depth_stamp_ns) > self.max_time_delta_ns:
-            self.warn_throttled("sync", "RGB and aligned-depth timestamps are too far apart")
+            self.warn_throttled(
+                "sync", "RGB and aligned-depth timestamps are too far apart"
+            )
             return
         try:
             frame = self.bridge.imgmsg_to_cv2(message, desired_encoding="bgr8")
@@ -693,9 +698,7 @@ class BoxDetector(Node):
             return
         try:
             depth = np.asarray(
-                self.bridge.imgmsg_to_cv2(
-                    depth_message, desired_encoding="passthrough"
-                )
+                self.bridge.imgmsg_to_cv2(depth_message, desired_encoding="passthrough")
             )
         except Exception as error:
             self.warn_throttled("depth_conversion", f"depth conversion failed: {error}")
@@ -773,9 +776,7 @@ class BoxDetector(Node):
             depths[valid_depth],
             camera_matrix,
         )
-        all_world_points = np.full(
-            (all_rows.size, 3), np.nan, dtype=np.float64
-        )
+        all_world_points = np.full((all_rows.size, 3), np.nan, dtype=np.float64)
         all_world_points[valid_depth] = camera_points @ rotation.T + translation
 
         # Step 3: one global support plane per frame, shared by all candidates.
@@ -853,14 +854,16 @@ class BoxDetector(Node):
                 )
                 continue
             sample, error = self._measure_top(
-                surface, all_rows, all_columns, valid_depth, all_world_points,
+                surface,
+                all_rows,
+                all_columns,
+                valid_depth,
+                all_world_points,
                 support_plane,
             )
             if sample is None:
                 geometry_rejected += 1
-                self.get_logger().debug(
-                    f"White candidate {index} rejected: {error}"
-                )
+                self.get_logger().debug(f"White candidate {index} rejected: {error}")
                 self._annotate_candidate(
                     debug, surface, index, "REJECT_PLANE", (255, 0, 255)
                 )
@@ -883,9 +886,7 @@ class BoxDetector(Node):
         # Step 7: simple selection - largest 3-D top footprint.
         surface, sample = choose_largest_valid_top(valid_measurements)
         self.draw_surface_mask(debug, surface.mask, color=(0, 0, 255), alpha=0.30)
-        cv2.polylines(
-            debug, [surface.contour], True, (0, 255, 255), 4, cv2.LINE_AA
-        )
+        cv2.polylines(debug, [surface.contour], True, (0, 255, 255), 4, cv2.LINE_AA)
         x, y, _, _ = cv2.boundingRect(surface.contour)
         cv2.putText(
             debug,
@@ -1181,9 +1182,7 @@ class BoxDetector(Node):
         pixels = np.rint(pixels).astype(np.int32)
         cv2.polylines(frame, [pixels], True, (0, 255, 0), 3, cv2.LINE_AA)
         center = np.rint(np.mean(pixels, axis=0)).astype(int)
-        cv2.drawMarker(
-            frame, tuple(center), (255, 0, 255), cv2.MARKER_CROSS, 18, 2
-        )
+        cv2.drawMarker(frame, tuple(center), (255, 0, 255), cv2.MARKER_CROSS, 18, 2)
 
     def publish_detection(self, source: Image, estimate: np.ndarray) -> None:
         top_z = float(estimate[2])
@@ -1225,8 +1224,7 @@ class BoxDetector(Node):
         footprint = PolygonStamped()
         footprint.header = pose.header
         footprint.polygon.points = [
-            Point32(x=float(point[0]), y=float(point[1]), z=top_z)
-            for point in corners
+            Point32(x=float(point[0]), y=float(point[1]), z=top_z) for point in corners
         ]
         self.footprint_publisher.publish(footprint)
 
@@ -1245,9 +1243,7 @@ class BoxDetector(Node):
         color = (0, 255, 0) if locked else (0, 128, 255)
         lines = [part.strip() for part in status.split("|", maxsplit=1)]
         bar_height = 14 + 34 * len(lines)
-        cv2.rectangle(
-            frame, (8, 8), (frame.shape[1] - 8, bar_height), (0, 0, 0), -1
-        )
+        cv2.rectangle(frame, (8, 8), (frame.shape[1] - 8, bar_height), (0, 0, 0), -1)
         for index, line in enumerate(lines):
             cv2.putText(
                 frame,

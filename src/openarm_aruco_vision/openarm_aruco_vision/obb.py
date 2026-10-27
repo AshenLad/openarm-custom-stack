@@ -88,6 +88,7 @@ def min_area_box_top(
     # quantile-bounded rectangle, then refine locally. Box callers use 0/100
     # and retain OpenCV's exact rotating-calipers result.
     if low_percentile > 0.0 or high_percentile < 100.0:
+
         def robust_area(angle: float) -> tuple[float, np.ndarray, np.ndarray]:
             axis = np.asarray([math.cos(angle), math.sin(angle)])
             perpendicular = np.asarray([-axis[1], axis[0]])
@@ -143,9 +144,7 @@ def min_area_box_top(
         + 0.5 * float(short_low + short_high) * short_axis
     )
     center_xy = center_local + origin
-    yaw = normalize_axis_yaw(
-        math.atan2(float(long_axis[1]), float(long_axis[0]))
-    )
+    yaw = normalize_axis_yaw(math.atan2(float(long_axis[1]), float(long_axis[0])))
 
     # Nearly square clouds can make either rectangle edge the nominal long
     # edge. Preserve the public L >= W convention together with its yaw.

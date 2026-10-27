@@ -31,9 +31,7 @@ from tf2_ros import Buffer, TransformBroadcaster, TransformException, TransformL
 from openarm_aruco_vision.obb import min_area_box_top
 
 
-def quaternion_to_rotation_matrix(
-    x: float, y: float, z: float, w: float
-) -> np.ndarray:
+def quaternion_to_rotation_matrix(x: float, y: float, z: float, w: float) -> np.ndarray:
     norm = math.sqrt(x * x + y * y + z * z + w * w)
     if norm == 0.0:
         raise ValueError("zero-length quaternion")
@@ -123,9 +121,7 @@ def robust_object_estimate(samples: np.ndarray) -> tuple[np.ndarray, np.ndarray]
     estimate = np.median(samples, axis=0)
     symmetry_order = object_symmetry_order(estimate[3:5])
     estimate[6] = symmetric_yaw_mean(samples[:, 6], symmetry_order)
-    yaw_errors = symmetric_yaw_errors(
-        samples[:, 6], float(estimate[6]), symmetry_order
-    )
+    yaw_errors = symmetric_yaw_errors(samples[:, 6], float(estimate[6]), symmetry_order)
     return estimate, yaw_errors
 
 
@@ -179,9 +175,7 @@ class HorizontalPlane:
 
     def z_at(self, xy: np.ndarray) -> float:
         return -(
-            float(self.normal[0] * xy[0])
-            + float(self.normal[1] * xy[1])
-            + self.d
+            float(self.normal[0] * xy[0]) + float(self.normal[1] * xy[1]) + self.d
         ) / float(self.normal[2])
 
 
@@ -223,10 +217,7 @@ def voxel_down_sample(points: np.ndarray, voxel_size_m: float) -> np.ndarray:
     _, inverse = np.unique(voxel_indices, axis=0, return_inverse=True)
     counts = np.bincount(inverse)
     return np.column_stack(
-        [
-            np.bincount(inverse, weights=points[:, axis]) / counts
-            for axis in range(3)
-        ]
+        [np.bincount(inverse, weights=points[:, axis]) / counts for axis in range(3)]
     )
 
 
@@ -412,13 +403,9 @@ def extract_object_clusters(
     if world_points.ndim != 2 or world_points.shape[1] != 3:
         return []
     finite = np.all(np.isfinite(world_points), axis=1)
-    inside = points_in_oriented_footprint(
-        world_points, box, footprint_inset_m
-    )
+    inside = points_in_oriented_footprint(world_points, box, footprint_inset_m)
     if top_plane is None:
-        top_plane = HorizontalPlane(
-            normal=np.asarray([0.0, 0.0, 1.0]), d=-box.top_z
-        )
+        top_plane = HorizontalPlane(normal=np.asarray([0.0, 0.0, 1.0]), d=-box.top_z)
     above_top = top_plane.heights(world_points) >= top_clearance_m
     object_points = world_points[finite & inside & above_top]
     object_points = voxel_down_sample(object_points, voxel_size_m)
@@ -489,12 +476,8 @@ def fit_object_obb(
         return None
     base_z = plane.z_at(fit.center_xy)
     return ObjectFit(
-        center=np.asarray(
-            [fit.center_xy[0], fit.center_xy[1], base_z + 0.5 * height]
-        ),
-        dimensions=np.asarray(
-            [fit.dimensions_xy[0], fit.dimensions_xy[1], height]
-        ),
+        center=np.asarray([fit.center_xy[0], fit.center_xy[1], base_z + 0.5 * height]),
+        dimensions=np.asarray([fit.dimensions_xy[0], fit.dimensions_xy[1], height]),
         yaw=fit.yaw,
     )
 
@@ -506,7 +489,10 @@ class BlueCubeDetector(Node):
         super().__init__("blue_cube_detector")
         defaults = (
             ("color_image_topic", "/camera/global_camera/color/image_raw"),
-            ("aligned_depth_topic", "/camera/global_camera/aligned_depth_to_color/image_raw"),
+            (
+                "aligned_depth_topic",
+                "/camera/global_camera/aligned_depth_to_color/image_raw",
+            ),
             ("camera_info_topic", "/camera/global_camera/color/camera_info"),
             # Legacy topic/frame names retained for downstream compatibility.
             ("world_pose_topic", "/blue_cube/pose"),
@@ -571,9 +557,7 @@ class BlueCubeDetector(Node):
         self.cluster_tolerance = float(value("cluster_tolerance_m"))
         self.cluster_min_points = int(value("cluster_min_points"))
         self.object_top_band = float(value("object_top_band_m"))
-        self.top_density_neighbor_count = int(
-            value("top_density_neighbor_count")
-        )
+        self.top_density_neighbor_count = int(value("top_density_neighbor_count"))
         self.top_density_mad_scale = float(value("top_density_mad_scale"))
         self.top_component_connectivity_scale = float(
             value("top_component_connectivity_scale")
@@ -583,9 +567,7 @@ class BlueCubeDetector(Node):
         self.max_size_std = float(value("max_size_std_m"))
         self.max_yaw_std = float(value("max_yaw_std_rad"))
         self.sample_jump_reset = float(value("sample_jump_reset_m"))
-        self.locked_max_position_change = float(
-            value("locked_max_position_change_m")
-        )
+        self.locked_max_position_change = float(value("locked_max_position_change_m"))
         self.locked_max_size_change = float(value("locked_max_size_change_m"))
         self.locked_max_yaw_change = float(value("locked_max_yaw_change_rad"))
         self.lock_change_confirm_frames = int(value("lock_change_confirm_frames"))
@@ -655,24 +637,39 @@ class BlueCubeDetector(Node):
         self.input_group = MutuallyExclusiveCallbackGroup()
         self.processing_group = MutuallyExclusiveCallbackGroup()
         self.create_subscription(
-            CameraInfo, self.info_topic, self.camera_info_callback,
-            qos_profile_sensor_data, callback_group=self.input_group,
-        )
-        self.create_subscription(
-            Image, self.depth_topic, self.depth_callback,
-            qos_profile_sensor_data, callback_group=self.input_group,
-        )
-        self.create_subscription(
-            Image, self.color_topic, self.color_callback,
-            qos_profile_sensor_data, callback_group=self.input_group,
-        )
-        self.create_subscription(
-            PoseStamped, str(value("box_pose_topic")), self.box_pose_callback, 10,
+            CameraInfo,
+            self.info_topic,
+            self.camera_info_callback,
+            qos_profile_sensor_data,
             callback_group=self.input_group,
         )
         self.create_subscription(
-            Vector3Stamped, str(value("box_dimensions_topic")),
-            self.box_dimensions_callback, 10, callback_group=self.input_group,
+            Image,
+            self.depth_topic,
+            self.depth_callback,
+            qos_profile_sensor_data,
+            callback_group=self.input_group,
+        )
+        self.create_subscription(
+            Image,
+            self.color_topic,
+            self.color_callback,
+            qos_profile_sensor_data,
+            callback_group=self.input_group,
+        )
+        self.create_subscription(
+            PoseStamped,
+            str(value("box_pose_topic")),
+            self.box_pose_callback,
+            10,
+            callback_group=self.input_group,
+        )
+        self.create_subscription(
+            Vector3Stamped,
+            str(value("box_dimensions_topic")),
+            self.box_dimensions_callback,
+            10,
+            callback_group=self.input_group,
         )
         self.create_timer(
             self.processing_interval,
@@ -743,8 +740,15 @@ class BlueCubeDetector(Node):
         pose = self.box_pose.pose
         dimensions = self.box_dimensions.vector
         values = np.asarray(
-            [pose.position.x, pose.position.y, pose.position.z,
-             dimensions.x, dimensions.y, dimensions.z], dtype=np.float64
+            [
+                pose.position.x,
+                pose.position.y,
+                pose.position.z,
+                dimensions.x,
+                dimensions.y,
+                dimensions.z,
+            ],
+            dtype=np.float64,
         )
         if not np.all(np.isfinite(values)) or np.any(values[3:] <= 0.0):
             return
@@ -801,8 +805,8 @@ class BlueCubeDetector(Node):
         translation = np.asarray([t.x, t.y, t.z], dtype=np.float64)
 
         rows_grid, columns_grid = np.mgrid[
-            0:depth.shape[0]:self.point_stride,
-            0:depth.shape[1]:self.point_stride,
+            0 : depth.shape[0] : self.point_stride,
+            0 : depth.shape[1] : self.point_stride,
         ]
         rows, columns = rows_grid.ravel(), columns_grid.ravel()
         depths = depth[rows, columns].astype(np.float64)
@@ -817,9 +821,7 @@ class BlueCubeDetector(Node):
         world_points = camera_points @ rotation.T + translation
         top_plane = estimate_box_top_plane(world_points, box, rng=self.rng)
         if top_plane is None:
-            held = self._record_miss(
-                color_message, camera_frame, rotation, translation
-            )
+            held = self._record_miss(color_message, camera_frame, rotation, translation)
             self.warn_throttled("top_plane", "No box-top plane inside live footprint")
             self.publish_debug(
                 color_message,
@@ -853,10 +855,10 @@ class BlueCubeDetector(Node):
         )
         debug = frame.copy()
         if fit is None:
-            held = self._record_miss(
-                color_message, camera_frame, rotation, translation
+            held = self._record_miss(color_message, camera_frame, rotation, translation)
+            self.warn_throttled(
+                "no_object", "No valid 3-D object cluster above box top"
             )
-            self.warn_throttled("no_object", "No valid 3-D object cluster above box top")
             self.publish_debug(
                 color_message,
                 debug,
@@ -941,7 +943,12 @@ class BlueCubeDetector(Node):
                 translation,
             )
         self._draw_cluster(
-            debug, rows[valid], columns[valid], world_points, fit, top_plane,
+            debug,
+            rows[valid],
+            columns[valid],
+            world_points,
+            fit,
+            top_plane,
         )
         status = (
             f"3-D OBJECT {estimate[3]:.3f}x{estimate[4]:.3f}x{estimate[5]:.3f} "
@@ -990,16 +997,12 @@ class BlueCubeDetector(Node):
         delta = world_points[:, :2] - fit.center[:2]
         cosine, sine = math.cos(fit.yaw), math.sin(fit.yaw)
         local = delta @ np.asarray([[cosine, -sine], [sine, cosine]])
-        inside_fit = np.all(
-            np.abs(local) <= 0.5 * fit.dimensions[:2] + 0.003, axis=1
+        inside_fit = np.all(np.abs(local) <= 0.5 * fit.dimensions[:2] + 0.003, axis=1)
+        on_fitted_top = (
+            np.abs(top_plane.heights(world_points) - fit.dimensions[2]) <= 0.007
         )
-        on_fitted_top = np.abs(
-            top_plane.heights(world_points) - fit.dimensions[2]
-        ) <= 0.007
         selected = (
-            np.all(np.isfinite(world_points), axis=1)
-            & inside_fit
-            & on_fitted_top
+            np.all(np.isfinite(world_points), axis=1) & inside_fit & on_fitted_top
         )
         frame[rows[selected], columns[selected]] = (0, 255, 0)
 
@@ -1057,8 +1060,14 @@ class BlueCubeDetector(Node):
 
     def publish_debug(self, source: Image, frame: np.ndarray, status: str) -> None:
         cv2.putText(
-            frame, status, (20, 35), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
-            (0, 255, 0), 2, cv2.LINE_AA,
+            frame,
+            status,
+            (20, 35),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.7,
+            (0, 255, 0),
+            2,
+            cv2.LINE_AA,
         )
         message = self.bridge.cv2_to_imgmsg(frame, encoding="bgr8")
         message.header = source.header

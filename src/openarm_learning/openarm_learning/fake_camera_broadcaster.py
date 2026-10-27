@@ -8,7 +8,7 @@ from tf2_ros import StaticTransformBroadcaster
 class FakeCameraBroadcaster(Node):
 
     def __init__(self):
-        super().__init__('fake_camera_broadcaster')
+        super().__init__("fake_camera_broadcaster")
 
         # 创建静态 TF 广播器
         self.tf_broadcaster = StaticTransformBroadcaster(self)
@@ -19,10 +19,10 @@ class FakeCameraBroadcaster(Node):
         camera_tf.header.stamp = self.get_clock().now().to_msg()
 
         # parent frame
-        camera_tf.header.frame_id = 'openarm_left_grasp_frame'
+        camera_tf.header.frame_id = "openarm_left_grasp_frame"
 
         # child frame
-        camera_tf.child_frame_id = 'fake_camera_link'
+        camera_tf.child_frame_id = "fake_camera_link"
 
         # 暂时让 camera_link 与 grasp_frame 完全重合
         camera_tf.transform.translation.x = 0.0
@@ -38,21 +38,19 @@ class FakeCameraBroadcaster(Node):
         self.tf_broadcaster.sendTransform(camera_tf)
 
         self.get_logger().info(
-            'Published static TF: '
-            'openarm_left_grasp_frame -> fake_camera_link'
+            "Published static TF: " "openarm_left_grasp_frame -> fake_camera_link"
         )
-        
-        
-        #构建optical frame
+
+        # 构建optical frame
         optical_tf = TransformStamped()
 
         optical_tf.header.stamp = self.get_clock().now().to_msg()
 
         # parent frame
-        optical_tf.header.frame_id = 'fake_camera_link'
+        optical_tf.header.frame_id = "fake_camera_link"
 
         # child frame
-        optical_tf.child_frame_id = 'fake_camera_color_optical_frame'
+        optical_tf.child_frame_id = "fake_camera_color_optical_frame"
 
         optical_tf.transform.translation.x = 0.0
         optical_tf.transform.translation.y = 0.0
@@ -67,10 +65,9 @@ class FakeCameraBroadcaster(Node):
         self.tf_broadcaster.sendTransform(optical_tf)
 
         self.get_logger().info(
-            'Published static TF: '
-            'fake_camera_link -> fake_camera_color_optical_frame'
+            "Published static TF: "
+            "fake_camera_link -> fake_camera_color_optical_frame"
         )
-        
 
 
 def main(args=None):
@@ -87,5 +84,5 @@ def main(args=None):
         rclpy.try_shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

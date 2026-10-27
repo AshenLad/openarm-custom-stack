@@ -3,25 +3,21 @@ from rclpy.node import Node
 from rclpy.time import Time
 
 from geometry_msgs.msg import PoseStamped
-from tf2_ros import Buffer, TransformListener, TransformException
+from tf2_ros import Buffer, TransformListener
+# TF2 exports this exception from a compiled extension without Python type stubs.
+from tf2_ros import TransformException  # pyright: ignore[reportAttributeAccessIssue]
 from tf2_geometry_msgs.tf2_geometry_msgs import do_transform_pose_stamped
 
 
 class TFMonitor(Node):
 
     def __init__(self):
-        super().__init__('tf_monitor')
+        super().__init__("tf_monitor")
 
         self.tf_buffer = Buffer()
-        self.tf_listener = TransformListener(
-            self.tf_buffer,
-            self
-        )
+        self.tf_listener = TransformListener(self.tf_buffer, self)
 
-        self.timer = self.create_timer(
-            1.0,
-            self.transform_object_pose
-        )
+        self.timer = self.create_timer(1.0, self.transform_object_pose)
 
     def transform_object_pose(self):
 
@@ -29,7 +25,7 @@ class TFMonitor(Node):
         object_pose = PoseStamped()
 
         # GDRNPP 的 Pose 属于 optical frame
-        object_pose.header.frame_id = 'fake_camera_color_optical_frame'
+        object_pose.header.frame_id = "fake_camera_color_optical_frame"
 
         # 这里先用时间戳 0：
         # 表示查询最新可用 TF，方便当前实验
@@ -48,25 +44,25 @@ class TFMonitor(Node):
         object_pose.pose.orientation.w = 1.0
 
         try:
-            object_pose_world = self.tf_buffer.transform(
-                object_pose,
-                'world'
+            transform = self.tf_buffer.lookup_transform(
+                "world",
+                object_pose.header.frame_id,
+                Time.from_msg(object_pose.header.stamp),
             )
+            object_pose_world = do_transform_pose_stamped(object_pose, transform)
 
             p = object_pose_world.pose.position
             q = object_pose_world.pose.orientation
 
             self.get_logger().info(
-                f'object in world: '
-                f'position=({p.x:.3f}, {p.y:.3f}, {p.z:.3f}), '
-                f'quaternion=({q.x:.3f}, {q.y:.3f}, '
-                f'{q.z:.3f}, {q.w:.3f})'
+                f"object in world: "
+                f"position=({p.x:.3f}, {p.y:.3f}, {p.z:.3f}), "
+                f"quaternion=({q.x:.3f}, {q.y:.3f}, "
+                f"{q.z:.3f}, {q.w:.3f})"
             )
 
         except TransformException as ex:
-            self.get_logger().warn(
-                f'Could not transform pose: {ex}'
-            )
+            self.get_logger().warn(f"Could not transform pose: {ex}")
 
 
 def main(args=None):
@@ -83,5 +79,5 @@ def main(args=None):
         rclpy.try_shutdown()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

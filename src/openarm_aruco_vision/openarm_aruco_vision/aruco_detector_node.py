@@ -15,7 +15,9 @@ from sensor_msgs.msg import CameraInfo, Image
 from tf2_ros import TransformBroadcaster
 
 
-def rotation_matrix_to_quaternion(matrix: np.ndarray) -> tuple[float, float, float, float]:
+def rotation_matrix_to_quaternion(
+    matrix: np.ndarray,
+) -> tuple[float, float, float, float]:
     """Convert a proper 3x3 rotation matrix to an xyzw quaternion."""
     m = np.asarray(matrix, dtype=np.float64)
     trace = float(np.trace(m))
@@ -187,7 +189,11 @@ class ArucoDetector(Node):
                 tvec = np.asarray(tvec, dtype=np.float64).reshape(3)
                 rotation, _ = cv2.Rodrigues(rvec)
                 quaternion = rotation_matrix_to_quaternion(rotation)
-                parent_frame = self.camera_frame_override or self.camera_frame or message.header.frame_id
+                parent_frame = (
+                    self.camera_frame_override
+                    or self.camera_frame
+                    or message.header.frame_id
+                )
                 if parent_frame:
                     self.publish_pose(message, parent_frame, tvec, quaternion)
                     if not self.reported_detection:
@@ -223,7 +229,12 @@ class ArucoDetector(Node):
         pose.pose.position.x, pose.pose.position.y, pose.pose.position.z = (
             float(value) for value in translation
         )
-        pose.pose.orientation.x, pose.pose.orientation.y, pose.pose.orientation.z, pose.pose.orientation.w = quaternion
+        (
+            pose.pose.orientation.x,
+            pose.pose.orientation.y,
+            pose.pose.orientation.z,
+            pose.pose.orientation.w,
+        ) = quaternion
         self.pose_publisher.publish(pose)
 
         transform = TransformStamped()
