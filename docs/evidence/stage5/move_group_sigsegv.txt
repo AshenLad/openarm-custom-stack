@@ -1,0 +1,22 @@
+[ros2_control_node-2] [INFO] [1793023592.804752450] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[move_group-3] [INFO] [1793023592.823434408] [move_group.moveit.moveit.ros.moveit_cpp]: Deleting MoveItCpp
+[move_group-3] Stack trace (most recent call last):
+[move_group-3] #15   Object "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2", at 0xffffffffffffffff, in 
+[move_group-3] #14   Object "/opt/ros/jazzy/lib/moveit_ros_move_group/move_group", at 0x55f11e77fa14, in _start
+[move_group-3] #13   Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x7f3394ca228a, in __libc_start_main
+[move_group-3] #12   Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x7f3394ca21c9, in 
+[move_group-3] #11   Object "/opt/ros/jazzy/lib/moveit_ros_move_group/move_group", at 0x55f11e77e509, in main
+[move_group-3] #10   Object "/opt/ros/jazzy/lib/moveit_ros_move_group/move_group", at 0x55f11e781129, in 
+[move_group-3] #9    Object "/opt/ros/jazzy/lib/libmoveit_cpp.so.2.12.4", at 0x7f3395632ad0, in moveit_cpp::MoveItCpp::~MoveItCpp()
+[move_group-3] #8    Object "/opt/ros/jazzy/lib/libmoveit_cpp.so.2.12.4", at 0x7f3395632989, in 
+[move_group-3] #7    Object "/opt/ros/jazzy/lib/libmoveit_trajectory_execution_manager.so.2.12.4", at 0x7f339499942a, in trajectory_execution_manager::TrajectoryExecutionManager::~TrajectoryExecutionManager()
+[move_group-3] #6    Object "/opt/ros/jazzy/lib/libmoveit_trajectory_execution_manager.so.2.12.4", at 0x7f33949ab575, in 
+[move_group-3] #5    Object "/opt/ros/jazzy/lib/librclcpp.so", at 0x7f33952cacb4, in rclcpp::Node::~Node()
+[move_group-3] #4    Object "/opt/ros/jazzy/lib/librclcpp.so", at 0x7f3395274a35, in 
+[move_group-3] #3    Object "/opt/ros/jazzy/lib/librclcpp.so", at 0x7f33952c9580, in 
+[move_group-3] #2    Object "/opt/ros/jazzy/lib/librclcpp.so", at 0x7f33952c94c3, in rclcpp::node_interfaces::NodeBase::~NodeBase()
+[move_group-3] #1    Object "/opt/ros/jazzy/lib/librclcpp.so", at 0x7f3395274af9, in 
+[move_group-3] #0    Object "/opt/ros/jazzy/lib/librclcpp.so", at 0x7f3395278ba9, in rclcpp::CallbackGroup::~CallbackGroup()
+[move_group-3] Segmentation fault (Address not mapped to object [0x7f336b1acda0])
+
+[ERROR] [move_group-3]: process has died [pid 553615, exit code -11, cmd '/opt/ros/jazzy/lib/moveit_ros_move_group/move_group --ros-args --params-file /home/ashenlad/code/openarm-custom-stack/log/stage5_audit_f611c7zb/launch_params_ihw8fwkz --params-file /home/ashenlad/code/openarm-custom-stack/log/stage5_audit_f611c7zb/launch_params_7g9vv6qi'].

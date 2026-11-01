@@ -1,0 +1,2664 @@
+{
+  "mode": "fake_execute",
+  "domain": 86,
+  "initial_nodes": [],
+  "command": [
+    "ros2",
+    "launch",
+    "openarm_mtc_pick",
+    "fake_pick_place.launch.py",
+    "execute_fake:=true"
+  ],
+  "nodes": [
+    [
+      "stage5_audit_probe",
+      "/"
+    ],
+    [
+      "robot_state_publisher",
+      "/"
+    ],
+    [
+      "controller_manager",
+      "/"
+    ],
+    [
+      "openarm_left_hardware_interface",
+      "/"
+    ],
+    [
+      "openarm_right_hardware_interface",
+      "/"
+    ],
+    [
+      "left_gripper_controller",
+      "/"
+    ],
+    [
+      "right_gripper_controller",
+      "/"
+    ],
+    [
+      "left_joint_trajectory_controller",
+      "/"
+    ],
+    [
+      "right_joint_trajectory_controller",
+      "/"
+    ],
+    [
+      "joint_state_broadcaster",
+      "/"
+    ],
+    [
+      "move_group",
+      "/"
+    ],
+    [
+      "moveit",
+      "/move_group"
+    ],
+    [
+      "moveit_1070445258",
+      "/"
+    ],
+    [
+      "move_group_private_94494577132048",
+      "/"
+    ],
+    [
+      "transform_listener_impl_55f13be9cad0",
+      "/"
+    ],
+    [
+      "moveit_simple_controller_manager",
+      "/"
+    ],
+    [
+      "fake_blue_cube_pose_publisher",
+      "/"
+    ],
+    [
+      "planning_scene_interface_94504584004080",
+      "/"
+    ],
+    [
+      "openarm_mtc_pregrasp",
+      "/planning_scene_interface_94504584004080"
+    ],
+    [
+      "openarm_mtc_pregrasp",
+      "/"
+    ],
+    [
+      "openarm_mtc_pregrasp",
+      "/"
+    ],
+    [
+      "openarm_mtc_pregrasp",
+      "/"
+    ],
+    [
+      "openarm_mtc_pregrasp",
+      "/"
+    ]
+  ],
+  "actions": [
+    [
+      "/execute_task_solution",
+      [
+        "moveit_task_constructor_msgs/action/ExecuteTaskSolution"
+      ]
+    ],
+    [
+      "/execute_trajectory",
+      [
+        "moveit_msgs/action/ExecuteTrajectory"
+      ]
+    ],
+    [
+      "/left_gripper_controller/follow_joint_trajectory",
+      [
+        "control_msgs/action/FollowJointTrajectory"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/follow_joint_trajectory",
+      [
+        "control_msgs/action/FollowJointTrajectory"
+      ]
+    ],
+    [
+      "/move_action",
+      [
+        "moveit_msgs/action/MoveGroup"
+      ]
+    ],
+    [
+      "/right_gripper_controller/follow_joint_trajectory",
+      [
+        "control_msgs/action/FollowJointTrajectory"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/follow_joint_trajectory",
+      [
+        "control_msgs/action/FollowJointTrajectory"
+      ]
+    ]
+  ],
+  "topics": [
+    [
+      "/attached_collision_object",
+      [
+        "moveit_msgs/msg/AttachedCollisionObject"
+      ]
+    ],
+    [
+      "/blue_cube/dimensions",
+      [
+        "geometry_msgs/msg/Vector3Stamped"
+      ]
+    ],
+    [
+      "/blue_cube/pose",
+      [
+        "geometry_msgs/msg/PoseStamped"
+      ]
+    ],
+    [
+      "/box/dimensions",
+      [
+        "geometry_msgs/msg/Vector3Stamped"
+      ]
+    ],
+    [
+      "/box/pose",
+      [
+        "geometry_msgs/msg/PoseStamped"
+      ]
+    ],
+    [
+      "/collision_object",
+      [
+        "moveit_msgs/msg/CollisionObject"
+      ]
+    ],
+    [
+      "/controller_manager/activity",
+      [
+        "controller_manager_msgs/msg/ControllerManagerActivity"
+      ]
+    ],
+    [
+      "/controller_manager/introspection_data/full",
+      [
+        "pal_statistics_msgs/msg/Statistics"
+      ]
+    ],
+    [
+      "/controller_manager/introspection_data/names",
+      [
+        "pal_statistics_msgs/msg/StatisticsNames"
+      ]
+    ],
+    [
+      "/controller_manager/introspection_data/values",
+      [
+        "pal_statistics_msgs/msg/StatisticsValues"
+      ]
+    ],
+    [
+      "/controller_manager/statistics/full",
+      [
+        "pal_statistics_msgs/msg/Statistics"
+      ]
+    ],
+    [
+      "/controller_manager/statistics/names",
+      [
+        "pal_statistics_msgs/msg/StatisticsNames"
+      ]
+    ],
+    [
+      "/controller_manager/statistics/values",
+      [
+        "pal_statistics_msgs/msg/StatisticsValues"
+      ]
+    ],
+    [
+      "/description",
+      [
+        "moveit_task_constructor_msgs/msg/TaskDescription"
+      ]
+    ],
+    [
+      "/diagnostics",
+      [
+        "diagnostic_msgs/msg/DiagnosticArray"
+      ]
+    ],
+    [
+      "/display_contacts",
+      [
+        "visualization_msgs/msg/MarkerArray"
+      ]
+    ],
+    [
+      "/display_planned_path",
+      [
+        "moveit_msgs/msg/DisplayTrajectory"
+      ]
+    ],
+    [
+      "/dynamic_joint_states",
+      [
+        "control_msgs/msg/DynamicJointState"
+      ]
+    ],
+    [
+      "/execute_task_solution/_action/feedback",
+      [
+        "moveit_task_constructor_msgs/action/ExecuteTaskSolution_FeedbackMessage"
+      ]
+    ],
+    [
+      "/execute_task_solution/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/execute_trajectory/_action/feedback",
+      [
+        "moveit_msgs/action/ExecuteTrajectory_FeedbackMessage"
+      ]
+    ],
+    [
+      "/execute_trajectory/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/transition_event",
+      [
+        "lifecycle_msgs/msg/TransitionEvent"
+      ]
+    ],
+    [
+      "/joint_states",
+      [
+        "sensor_msgs/msg/JointState"
+      ]
+    ],
+    [
+      "/left_gripper_controller/controller_state",
+      [
+        "control_msgs/msg/JointTrajectoryControllerState"
+      ]
+    ],
+    [
+      "/left_gripper_controller/follow_joint_trajectory/_action/feedback",
+      [
+        "control_msgs/action/FollowJointTrajectory_FeedbackMessage"
+      ]
+    ],
+    [
+      "/left_gripper_controller/follow_joint_trajectory/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/left_gripper_controller/joint_trajectory",
+      [
+        "trajectory_msgs/msg/JointTrajectory"
+      ]
+    ],
+    [
+      "/left_gripper_controller/speed_scaling_input",
+      [
+        "control_msgs/msg/SpeedScalingFactor"
+      ]
+    ],
+    [
+      "/left_gripper_controller/transition_event",
+      [
+        "lifecycle_msgs/msg/TransitionEvent"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/controller_state",
+      [
+        "control_msgs/msg/JointTrajectoryControllerState"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/follow_joint_trajectory/_action/feedback",
+      [
+        "control_msgs/action/FollowJointTrajectory_FeedbackMessage"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/follow_joint_trajectory/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/joint_trajectory",
+      [
+        "trajectory_msgs/msg/JointTrajectory"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/speed_scaling_input",
+      [
+        "control_msgs/msg/SpeedScalingFactor"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/transition_event",
+      [
+        "lifecycle_msgs/msg/TransitionEvent"
+      ]
+    ],
+    [
+      "/monitored_planning_scene",
+      [
+        "moveit_msgs/msg/PlanningScene"
+      ]
+    ],
+    [
+      "/move_action/_action/feedback",
+      [
+        "moveit_msgs/action/MoveGroup_FeedbackMessage"
+      ]
+    ],
+    [
+      "/move_action/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/parameter_events",
+      [
+        "rcl_interfaces/msg/ParameterEvent"
+      ]
+    ],
+    [
+      "/pipeline_state",
+      [
+        "moveit_msgs/msg/PipelineState"
+      ]
+    ],
+    [
+      "/planning_scene",
+      [
+        "moveit_msgs/msg/PlanningScene"
+      ]
+    ],
+    [
+      "/planning_scene_world",
+      [
+        "moveit_msgs/msg/PlanningSceneWorld"
+      ]
+    ],
+    [
+      "/right_gripper_controller/controller_state",
+      [
+        "control_msgs/msg/JointTrajectoryControllerState"
+      ]
+    ],
+    [
+      "/right_gripper_controller/follow_joint_trajectory/_action/feedback",
+      [
+        "control_msgs/action/FollowJointTrajectory_FeedbackMessage"
+      ]
+    ],
+    [
+      "/right_gripper_controller/follow_joint_trajectory/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/right_gripper_controller/joint_trajectory",
+      [
+        "trajectory_msgs/msg/JointTrajectory"
+      ]
+    ],
+    [
+      "/right_gripper_controller/speed_scaling_input",
+      [
+        "control_msgs/msg/SpeedScalingFactor"
+      ]
+    ],
+    [
+      "/right_gripper_controller/transition_event",
+      [
+        "lifecycle_msgs/msg/TransitionEvent"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/controller_state",
+      [
+        "control_msgs/msg/JointTrajectoryControllerState"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/follow_joint_trajectory/_action/feedback",
+      [
+        "control_msgs/action/FollowJointTrajectory_FeedbackMessage"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/follow_joint_trajectory/_action/status",
+      [
+        "action_msgs/msg/GoalStatusArray"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/joint_trajectory",
+      [
+        "trajectory_msgs/msg/JointTrajectory"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/speed_scaling_input",
+      [
+        "control_msgs/msg/SpeedScalingFactor"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/transition_event",
+      [
+        "lifecycle_msgs/msg/TransitionEvent"
+      ]
+    ],
+    [
+      "/robot_description",
+      [
+        "std_msgs/msg/String"
+      ]
+    ],
+    [
+      "/rosout",
+      [
+        "rcl_interfaces/msg/Log"
+      ]
+    ],
+    [
+      "/solution",
+      [
+        "moveit_task_constructor_msgs/msg/Solution"
+      ]
+    ],
+    [
+      "/statistics",
+      [
+        "moveit_task_constructor_msgs/msg/TaskStatistics"
+      ]
+    ],
+    [
+      "/tf",
+      [
+        "tf2_msgs/msg/TFMessage"
+      ]
+    ],
+    [
+      "/tf_static",
+      [
+        "tf2_msgs/msg/TFMessage"
+      ]
+    ],
+    [
+      "/trajectory_execution_event",
+      [
+        "std_msgs/msg/String"
+      ]
+    ]
+  ],
+  "services": [
+    [
+      "/apply_planning_scene",
+      [
+        "moveit_msgs/srv/ApplyPlanningScene"
+      ]
+    ],
+    [
+      "/check_state_validity",
+      [
+        "moveit_msgs/srv/GetStateValidity"
+      ]
+    ],
+    [
+      "/clear_octomap",
+      [
+        "std_srvs/srv/Empty"
+      ]
+    ],
+    [
+      "/compute_cartesian_path",
+      [
+        "moveit_msgs/srv/GetCartesianPath"
+      ]
+    ],
+    [
+      "/compute_fk",
+      [
+        "moveit_msgs/srv/GetPositionFK"
+      ]
+    ],
+    [
+      "/compute_ik",
+      [
+        "moveit_msgs/srv/GetPositionIK"
+      ]
+    ],
+    [
+      "/controller_manager/cleanup_controller",
+      [
+        "controller_manager_msgs/srv/CleanupController"
+      ]
+    ],
+    [
+      "/controller_manager/configure_controller",
+      [
+        "controller_manager_msgs/srv/ConfigureController"
+      ]
+    ],
+    [
+      "/controller_manager/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/controller_manager/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/controller_manager/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/controller_manager/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/controller_manager/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/controller_manager/list_controller_types",
+      [
+        "controller_manager_msgs/srv/ListControllerTypes"
+      ]
+    ],
+    [
+      "/controller_manager/list_controllers",
+      [
+        "controller_manager_msgs/srv/ListControllers"
+      ]
+    ],
+    [
+      "/controller_manager/list_hardware_components",
+      [
+        "controller_manager_msgs/srv/ListHardwareComponents"
+      ]
+    ],
+    [
+      "/controller_manager/list_hardware_interfaces",
+      [
+        "controller_manager_msgs/srv/ListHardwareInterfaces"
+      ]
+    ],
+    [
+      "/controller_manager/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/controller_manager/load_controller",
+      [
+        "controller_manager_msgs/srv/LoadController"
+      ]
+    ],
+    [
+      "/controller_manager/reload_controller_libraries",
+      [
+        "controller_manager_msgs/srv/ReloadControllerLibraries"
+      ]
+    ],
+    [
+      "/controller_manager/set_hardware_component_state",
+      [
+        "controller_manager_msgs/srv/SetHardwareComponentState"
+      ]
+    ],
+    [
+      "/controller_manager/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/controller_manager/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/controller_manager/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/controller_manager/switch_controller",
+      [
+        "controller_manager_msgs/srv/SwitchController"
+      ]
+    ],
+    [
+      "/controller_manager/unload_controller",
+      [
+        "controller_manager_msgs/srv/UnloadController"
+      ]
+    ],
+    [
+      "/execute_task_solution/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/execute_task_solution/_action/get_result",
+      [
+        "moveit_task_constructor_msgs/action/ExecuteTaskSolution_GetResult"
+      ]
+    ],
+    [
+      "/execute_task_solution/_action/send_goal",
+      [
+        "moveit_task_constructor_msgs/action/ExecuteTaskSolution_SendGoal"
+      ]
+    ],
+    [
+      "/execute_trajectory/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/execute_trajectory/_action/get_result",
+      [
+        "moveit_msgs/action/ExecuteTrajectory_GetResult"
+      ]
+    ],
+    [
+      "/execute_trajectory/_action/send_goal",
+      [
+        "moveit_msgs/action/ExecuteTrajectory_SendGoal"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/fake_blue_cube_pose_publisher/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/get_planner_params",
+      [
+        "moveit_msgs/srv/GetPlannerParams"
+      ]
+    ],
+    [
+      "/get_planning_scene",
+      [
+        "moveit_msgs/srv/GetPlanningScene"
+      ]
+    ],
+    [
+      "/get_solution_cachyos_553919_94504587412608",
+      [
+        "moveit_task_constructor_msgs/srv/GetSolution"
+      ]
+    ],
+    [
+      "/get_urdf",
+      [
+        "moveit_msgs/srv/GetGroupUrdf"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/joint_state_broadcaster/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/left_gripper_controller/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/left_gripper_controller/follow_joint_trajectory/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/left_gripper_controller/follow_joint_trajectory/_action/get_result",
+      [
+        "control_msgs/action/FollowJointTrajectory_GetResult"
+      ]
+    ],
+    [
+      "/left_gripper_controller/follow_joint_trajectory/_action/send_goal",
+      [
+        "control_msgs/action/FollowJointTrajectory_SendGoal"
+      ]
+    ],
+    [
+      "/left_gripper_controller/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/left_gripper_controller/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/left_gripper_controller/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/left_gripper_controller/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/left_gripper_controller/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/left_gripper_controller/query_state",
+      [
+        "control_msgs/srv/QueryTrajectoryState"
+      ]
+    ],
+    [
+      "/left_gripper_controller/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/left_gripper_controller/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/left_gripper_controller/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/follow_joint_trajectory/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/follow_joint_trajectory/_action/get_result",
+      [
+        "control_msgs/action/FollowJointTrajectory_GetResult"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/follow_joint_trajectory/_action/send_goal",
+      [
+        "control_msgs/action/FollowJointTrajectory_SendGoal"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/query_state",
+      [
+        "control_msgs/srv/QueryTrajectoryState"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/left_joint_trajectory_controller/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/load_geometry_from_file",
+      [
+        "moveit_msgs/srv/LoadGeometryFromFile"
+      ]
+    ],
+    [
+      "/load_map",
+      [
+        "moveit_msgs/srv/LoadMap"
+      ]
+    ],
+    [
+      "/move_action/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/move_action/_action/get_result",
+      [
+        "moveit_msgs/action/MoveGroup_GetResult"
+      ]
+    ],
+    [
+      "/move_action/_action/send_goal",
+      [
+        "moveit_msgs/action/MoveGroup_SendGoal"
+      ]
+    ],
+    [
+      "/move_group/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/move_group/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/move_group/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/move_group/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/move_group/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/move_group/moveit/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/move_group/moveit/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/move_group/moveit/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/move_group/moveit/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/move_group/moveit/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/move_group/moveit/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/move_group/moveit/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/move_group/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/move_group/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/move_group_private_94494577132048/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/moveit_1070445258/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/moveit_1070445258/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/moveit_1070445258/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/moveit_1070445258/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/moveit_1070445258/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/moveit_1070445258/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/moveit_1070445258/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/moveit_simple_controller_manager/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/openarm_left_hardware_interface/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/openarm_mtc_pregrasp/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/openarm_right_hardware_interface/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/plan_kinematic_path",
+      [
+        "moveit_msgs/srv/GetMotionPlan"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/openarm_mtc_pregrasp/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/planning_scene_interface_94504584004080/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/query_planner_interface",
+      [
+        "moveit_msgs/srv/QueryPlannerInterfaces"
+      ]
+    ],
+    [
+      "/right_gripper_controller/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/right_gripper_controller/follow_joint_trajectory/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/right_gripper_controller/follow_joint_trajectory/_action/get_result",
+      [
+        "control_msgs/action/FollowJointTrajectory_GetResult"
+      ]
+    ],
+    [
+      "/right_gripper_controller/follow_joint_trajectory/_action/send_goal",
+      [
+        "control_msgs/action/FollowJointTrajectory_SendGoal"
+      ]
+    ],
+    [
+      "/right_gripper_controller/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/right_gripper_controller/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/right_gripper_controller/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/right_gripper_controller/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/right_gripper_controller/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/right_gripper_controller/query_state",
+      [
+        "control_msgs/srv/QueryTrajectoryState"
+      ]
+    ],
+    [
+      "/right_gripper_controller/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/right_gripper_controller/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/right_gripper_controller/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/follow_joint_trajectory/_action/cancel_goal",
+      [
+        "action_msgs/srv/CancelGoal"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/follow_joint_trajectory/_action/get_result",
+      [
+        "control_msgs/action/FollowJointTrajectory_GetResult"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/follow_joint_trajectory/_action/send_goal",
+      [
+        "control_msgs/action/FollowJointTrajectory_SendGoal"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/get_logger_levels",
+      [
+        "rcl_interfaces/srv/GetLoggerLevels"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/query_state",
+      [
+        "control_msgs/srv/QueryTrajectoryState"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/set_logger_levels",
+      [
+        "rcl_interfaces/srv/SetLoggerLevels"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/right_joint_trajectory_controller/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/robot_state_publisher/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/robot_state_publisher/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/robot_state_publisher/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/robot_state_publisher/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/robot_state_publisher/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/robot_state_publisher/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/robot_state_publisher/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/save_geometry_to_file",
+      [
+        "moveit_msgs/srv/SaveGeometryToFile"
+      ]
+    ],
+    [
+      "/save_map",
+      [
+        "moveit_msgs/srv/SaveMap"
+      ]
+    ],
+    [
+      "/set_planner_params",
+      [
+        "moveit_msgs/srv/SetPlannerParams"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/describe_parameters",
+      [
+        "rcl_interfaces/srv/DescribeParameters"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/get_parameter_types",
+      [
+        "rcl_interfaces/srv/GetParameterTypes"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/get_parameters",
+      [
+        "rcl_interfaces/srv/GetParameters"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/list_parameters",
+      [
+        "rcl_interfaces/srv/ListParameters"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/set_parameters",
+      [
+        "rcl_interfaces/srv/SetParameters"
+      ]
+    ],
+    [
+      "/stage5_audit_probe/set_parameters_atomically",
+      [
+        "rcl_interfaces/srv/SetParametersAtomically"
+      ]
+    ],
+    [
+      "/transform_listener_impl_55f13be9cad0/get_type_description",
+      [
+        "type_description_interfaces/srv/GetTypeDescription"
+      ]
+    ]
+  ],
+  "joint_publishers": [
+    "joint_state_broadcaster"
+  ],
+  "joint_subscribers": [
+    "stage5_audit_probe",
+    "robot_state_publisher",
+    "move_group_private_94494577132048",
+    "_NODE_NAME_UNKNOWN_"
+  ],
+  "hardware": {
+    "component": [
+      {
+        "name": "openarm_right_hardware_interface",
+        "type": "system",
+        "is_async": false,
+        "rw_rate": 100,
+        "class_type": "",
+        "plugin_name": "mock_components/GenericSystem",
+        "state": {
+          "id": 3,
+          "label": "active"
+        },
+        "command_interfaces": [
+          {
+            "name": "openarm_right_finger_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint4/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint3/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint3/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint7/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint7/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint3/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint6/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint2/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint2/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint7/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint4/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint6/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint5/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint6/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint2/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_right_joint4/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint5/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint5/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_finger_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_finger_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          }
+        ],
+        "state_interfaces": [
+          {
+            "name": "openarm_right_finger_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint4/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint3/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint3/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint7/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint7/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint3/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint6/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint2/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint2/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint7/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint4/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint6/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint5/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint6/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint2/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint4/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint5/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_joint5/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_finger_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_right_finger_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          }
+        ]
+      },
+      {
+        "name": "openarm_left_hardware_interface",
+        "type": "system",
+        "is_async": false,
+        "rw_rate": 100,
+        "class_type": "",
+        "plugin_name": "mock_components/GenericSystem",
+        "state": {
+          "id": 3,
+          "label": "active"
+        },
+        "command_interfaces": [
+          {
+            "name": "openarm_left_finger_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint4/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint4/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint3/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint6/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint3/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint5/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint3/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint2/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint2/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_finger_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint4/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint6/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint6/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint2/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint7/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          },
+          {
+            "name": "openarm_left_joint7/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint7/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint5/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint5/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_finger_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": true
+          }
+        ],
+        "state_interfaces": [
+          {
+            "name": "openarm_left_finger_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint4/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint4/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint3/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint6/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint3/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint5/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint3/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint2/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint2/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_finger_joint1/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint4/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint6/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint6/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint2/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint1/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint7/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint7/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint7/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint5/velocity",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_joint5/effort",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          },
+          {
+            "name": "openarm_left_finger_joint1/position",
+            "data_type": "double",
+            "is_available": true,
+            "is_claimed": false
+          }
+        ]
+      }
+    ]
+  },
+  "controllers": {
+    "controller": [
+      {
+        "name": "joint_state_broadcaster",
+        "state": "active",
+        "type": "joint_state_broadcaster/JointStateBroadcaster",
+        "is_async": false,
+        "update_rate": 100,
+        "claimed_interfaces": [],
+        "required_command_interfaces": [],
+        "required_state_interfaces": [
+          "openarm_right_finger_joint1/effort",
+          "openarm_right_joint4/position",
+          "openarm_right_joint3/velocity",
+          "openarm_right_joint3/effort",
+          "openarm_right_joint7/velocity",
+          "openarm_right_joint7/effort",
+          "openarm_right_joint3/position",
+          "openarm_right_joint6/velocity",
+          "openarm_right_joint2/effort",
+          "openarm_right_joint2/velocity",
+          "openarm_right_joint7/position",
+          "openarm_right_joint4/velocity",
+          "openarm_right_joint1/effort",
+          "openarm_right_joint1/velocity",
+          "openarm_right_joint6/position",
+          "openarm_right_joint1/position",
+          "openarm_right_joint5/position",
+          "openarm_right_joint6/effort",
+          "openarm_right_joint2/position",
+          "openarm_right_joint4/effort",
+          "openarm_right_joint5/velocity",
+          "openarm_right_joint5/effort",
+          "openarm_right_finger_joint1/velocity",
+          "openarm_right_finger_joint1/position",
+          "openarm_left_finger_joint1/effort",
+          "openarm_left_joint4/velocity",
+          "openarm_left_joint4/position",
+          "openarm_left_joint3/effort",
+          "openarm_left_joint6/effort",
+          "openarm_left_joint3/position",
+          "openarm_left_joint5/position",
+          "openarm_left_joint3/velocity",
+          "openarm_left_joint2/effort",
+          "openarm_left_joint2/position",
+          "openarm_left_joint1/velocity",
+          "openarm_left_finger_joint1/velocity",
+          "openarm_left_joint1/position",
+          "openarm_left_joint4/effort",
+          "openarm_left_joint6/position",
+          "openarm_left_joint6/velocity",
+          "openarm_left_joint2/velocity",
+          "openarm_left_joint1/effort",
+          "openarm_left_joint7/position",
+          "openarm_left_joint7/velocity",
+          "openarm_left_joint7/effort",
+          "openarm_left_joint5/velocity",
+          "openarm_left_joint5/effort",
+          "openarm_left_finger_joint1/position"
+        ],
+        "is_chainable": false,
+        "is_chained": false,
+        "exported_state_interfaces": [],
+        "reference_interfaces": [],
+        "chain_connections": []
+      },
+      {
+        "name": "right_joint_trajectory_controller",
+        "state": "active",
+        "type": "joint_trajectory_controller/JointTrajectoryController",
+        "is_async": false,
+        "update_rate": 100,
+        "claimed_interfaces": [
+          "openarm_right_joint1/position",
+          "openarm_right_joint2/position",
+          "openarm_right_joint3/position",
+          "openarm_right_joint4/position",
+          "openarm_right_joint5/position",
+          "openarm_right_joint6/position",
+          "openarm_right_joint7/position"
+        ],
+        "required_command_interfaces": [
+          "openarm_right_joint1/position",
+          "openarm_right_joint2/position",
+          "openarm_right_joint3/position",
+          "openarm_right_joint4/position",
+          "openarm_right_joint5/position",
+          "openarm_right_joint6/position",
+          "openarm_right_joint7/position"
+        ],
+        "required_state_interfaces": [
+          "openarm_right_joint1/position",
+          "openarm_right_joint2/position",
+          "openarm_right_joint3/position",
+          "openarm_right_joint4/position",
+          "openarm_right_joint5/position",
+          "openarm_right_joint6/position",
+          "openarm_right_joint7/position"
+        ],
+        "is_chainable": false,
+        "is_chained": false,
+        "exported_state_interfaces": [],
+        "reference_interfaces": [],
+        "chain_connections": []
+      },
+      {
+        "name": "left_joint_trajectory_controller",
+        "state": "active",
+        "type": "joint_trajectory_controller/JointTrajectoryController",
+        "is_async": false,
+        "update_rate": 100,
+        "claimed_interfaces": [
+          "openarm_left_joint1/position",
+          "openarm_left_joint2/position",
+          "openarm_left_joint3/position",
+          "openarm_left_joint4/position",
+          "openarm_left_joint5/position",
+          "openarm_left_joint6/position",
+          "openarm_left_joint7/position"
+        ],
+        "required_command_interfaces": [
+          "openarm_left_joint1/position",
+          "openarm_left_joint2/position",
+          "openarm_left_joint3/position",
+          "openarm_left_joint4/position",
+          "openarm_left_joint5/position",
+          "openarm_left_joint6/position",
+          "openarm_left_joint7/position"
+        ],
+        "required_state_interfaces": [
+          "openarm_left_joint1/position",
+          "openarm_left_joint2/position",
+          "openarm_left_joint3/position",
+          "openarm_left_joint4/position",
+          "openarm_left_joint5/position",
+          "openarm_left_joint6/position",
+          "openarm_left_joint7/position"
+        ],
+        "is_chainable": false,
+        "is_chained": false,
+        "exported_state_interfaces": [],
+        "reference_interfaces": [],
+        "chain_connections": []
+      },
+      {
+        "name": "right_gripper_controller",
+        "state": "active",
+        "type": "joint_trajectory_controller/JointTrajectoryController",
+        "is_async": false,
+        "update_rate": 100,
+        "claimed_interfaces": [
+          "openarm_right_finger_joint1/position"
+        ],
+        "required_command_interfaces": [
+          "openarm_right_finger_joint1/position"
+        ],
+        "required_state_interfaces": [
+          "openarm_right_finger_joint1/position"
+        ],
+        "is_chainable": false,
+        "is_chained": false,
+        "exported_state_interfaces": [],
+        "reference_interfaces": [],
+        "chain_connections": []
+      },
+      {
+        "name": "left_gripper_controller",
+        "state": "active",
+        "type": "joint_trajectory_controller/JointTrajectoryController",
+        "is_async": false,
+        "update_rate": 100,
+        "claimed_interfaces": [
+          "openarm_left_finger_joint1/position"
+        ],
+        "required_command_interfaces": [
+          "openarm_left_finger_joint1/position"
+        ],
+        "required_state_interfaces": [
+          "openarm_left_finger_joint1/position"
+        ],
+        "is_chainable": false,
+        "is_chained": false,
+        "exported_state_interfaces": [],
+        "reference_interfaces": [],
+        "chain_connections": []
+      }
+    ]
+  },
+  "robot_description": [
+    "mock_components/GenericSystem",
+    "mock_components/GenericSystem"
+  ],
+  "first_joints": {
+    "openarm_left_finger_joint1": 0.0,
+    "openarm_left_joint1": 0.0,
+    "openarm_left_joint2": 0.0,
+    "openarm_left_joint3": 0.0,
+    "openarm_left_joint4": 0.0,
+    "openarm_left_joint5": 0.0,
+    "openarm_left_joint6": 0.0,
+    "openarm_left_joint7": 0.0,
+    "openarm_right_finger_joint1": 0.0,
+    "openarm_right_joint1": 0.0,
+    "openarm_right_joint2": 0.0,
+    "openarm_right_joint3": 0.0,
+    "openarm_right_joint4": 0.0,
+    "openarm_right_joint5": 0.0,
+    "openarm_right_joint6": 0.0,
+    "openarm_right_joint7": 0.0
+  },
+  "returncode": 0,
+  "stop_reason": "process_exited",
+  "elapsed": 83.69068641799822,
+  "last_joints": {
+    "openarm_left_finger_joint1": 0.0,
+    "openarm_left_joint1": 0.0,
+    "openarm_left_joint2": 0.0,
+    "openarm_left_joint3": 0.0,
+    "openarm_left_joint4": 0.0,
+    "openarm_left_joint5": 0.0,
+    "openarm_left_joint6": 0.0,
+    "openarm_left_joint7": 0.0,
+    "openarm_right_finger_joint1": 0.0,
+    "openarm_right_joint1": 2.5614489428699028e-05,
+    "openarm_right_joint2": -1.2480314215645191e-05,
+    "openarm_right_joint3": 3.1564570032060113e-06,
+    "openarm_right_joint4": 2.2118256334215404e-05,
+    "openarm_right_joint5": -9.849502132274211e-05,
+    "openarm_right_joint6": 5.697037386707961e-05,
+    "openarm_right_joint7": 4.7956109559163445e-05
+  },
+  "joint_extrema": {
+    "openarm_left_finger_joint1": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint1": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint2": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint3": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint4": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint5": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint6": [
+      0.0,
+      0.0
+    ],
+    "openarm_left_joint7": [
+      0.0,
+      0.0
+    ],
+    "openarm_right_finger_joint1": [
+      -0.35,
+      0.0
+    ],
+    "openarm_right_joint1": [
+      0.0,
+      0.7144573374740854
+    ],
+    "openarm_right_joint2": [
+      -0.06963194098151729,
+      0.5508679053199932
+    ],
+    "openarm_right_joint3": [
+      -1.0564986593895414,
+      3.1564570032060113e-06
+    ],
+    "openarm_right_joint4": [
+      0.0,
+      1.0536706279802082
+    ],
+    "openarm_right_joint5": [
+      -0.9303142723370907,
+      0.0
+    ],
+    "openarm_right_joint6": [
+      0.0,
+      0.7653997676463703
+    ],
+    "openarm_right_joint7": [
+      -0.08171302529532633,
+      1.4233841624865484
+    ]
+  },
+  "joint_samples": 7772,
+  "joint_rate": 100.00086282432798
+}
