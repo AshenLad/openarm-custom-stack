@@ -155,6 +155,23 @@ ros2 launch openarm_mtc_pick fake_pick_place.launch.py execute_fake:=true
 
 **范围控制：** 现有程序还包含视觉检查和较多工程逻辑。本节只追踪任务主线，不逐行讲解整个 `mtc_pregrasp.cpp`。
 
+#### 5.2 验收记录 · 2026-11-01 · 进行中
+
+- **本次范围：** 用户在 `ros-jazzy` 容器运行已有右臂演示，仅规划完整任务；Agent 只读核对本地源码与日志。没有执行任务解或轨迹；任务树理解验收尚未进行，本节不标记已完成。
+- **验证日期与代码版本：** 2026-11-01，`main @ 0e4e123`；启动前最近一次及日志归档前的宿主 `git status --porcelain` 输出均为空。本次 Agent 仅新增证据和文档记录。本次沿用既有安装产物，没有重新编译，源码与二进制的对应关系未重新验证。
+- **安装产物指纹：** 归档时 `install/openarm_mtc_pick/lib/openarm_mtc_pick/mtc_pregrasp` 指向 `build/openarm_mtc_pick/mtc_pregrasp`，SHA256 为 `9ef2218ea63cca273012fdd20045542e72bdf5cc99010b483b14b240eadb41e2`；该指纹记录归档时文件，不单独证明运行瞬间的二进制内容。
+- **验证命令：** 在工作空间根目录加载 Jazzy 与 `install/setup.bash`，设置 `ROS_DOMAIN_ID=86`、`ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST`；用户先执行 `ros2 node list`，贴回内容未列节点，随后执行：
+
+  ```bash
+  ros2 launch openarm_mtc_pick fake_pick_place.launch.py execute_fake:=false \
+    2>&1 | tee "/tmp/openarm-stage5-2-plan-$(date +%Y%m%d-%H%M%S).log"
+  ```
+
+- **关键输出（已验证）：** `run_mode=full execute=0 allow_execution=0 allow_full_execution=0 -> will_execute=0`；`run_mode=full plan succeeded with 5 solution(s)`；`Final: solutions = 5`；`PLAN ONLY: no trajectory was executed.`；MTC 进程正常退出。抓取候选 0、3 各为零解，候选 1、2 各有 3 个 IK 解；放置候选容器共 315 个局部解，这些都不等同于完整任务解数。
+- **结论：** 完整任务只规划验证通过，未取得本次执行、执行后关节反馈或最终服务端场景证据。任务树解读继续，节点仍为 5.2 进行中。
+- **退出异常：** 完整解和只规划结束标记之后，`move_group` 在清理阶段段错误，退出码 `-11`；另有控制器统计发布线程的 context 无效错误。属于退出状态与时序问题，具体根因未知；本次不修改代码、不扩展排查，也不认定整套启动流程干净退出。
+- **证据：** [完整运行日志](evidence/stage5/plan_only_20261101.log)，来自 `/tmp/openarm-stage5-2-plan-20261101-162011.log`，SHA256：`1481876f5cd61513ba3ad8a55facf711b669c53b5397b4bbfd294e8ed88a4f6d`。
+
 ### 5.3 独立编写最小 MTC C++ 程序
 
 **目标：从熟悉的左臂单次运动，建立最小 Task 的编写、构建与执行闭环。**
