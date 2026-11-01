@@ -29,3 +29,6 @@ openarm_logs/
 randomized_fake_*/
 backup*/
 *_backup/
+
+# 证据目录不受运行时产物规则影响（docs/evidence 必须可入库）
+!docs/evidence/**
